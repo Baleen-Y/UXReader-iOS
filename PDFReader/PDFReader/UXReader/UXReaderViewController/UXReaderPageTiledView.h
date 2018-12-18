@@ -25,5 +25,7 @@
 - (nullable instancetype)initWithFrame:(CGRect)frame document:(nonnull UXReaderDocument *)document page:(NSUInteger)page;
 
 - (nullable UXReaderAction *)processSingleTap:(nonnull UITapGestureRecognizer *)recognizer;
+- (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer;
+- (void)processUnLongPress;
 
 @end

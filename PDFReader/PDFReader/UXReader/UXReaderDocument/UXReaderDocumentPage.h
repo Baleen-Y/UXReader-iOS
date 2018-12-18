@@ -54,4 +54,8 @@
 - (nonnull NSArray<NSValue *> *)rectanglesForTextAtIndex:(NSUInteger)index count:(NSUInteger)count;
 - (nullable NSString *)textInRectangle:(CGRect)rectangle;
 
+- (void)selectWordForIndex:(NSUInteger)index;
+- (void)unSelectWord;
+- (void)updatePressSelect;
+
 @end

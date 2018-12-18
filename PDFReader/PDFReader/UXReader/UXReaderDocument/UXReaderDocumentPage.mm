@@ -37,6 +37,10 @@
 	NSUInteger page; CGSize pageSize;
 
 	NSUInteger rotation;
+
+    UXReaderSelection *pressSelection;
+
+    NSRange pressSelectionRange;
 }
 
 #pragma mark - UXReaderDocumentPage instance methods
@@ -517,6 +521,25 @@
 			}
 		}
 	}
+
+    if (pressSelection != nil) // Draw pressSelection
+    {
+        CGContextSetRGBFillColor(context, 10 / 255.0, 90 / 255.0, 160 / 255.0, 0.2);
+
+//        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 1.0, 0.48);
+
+        const CGRect clip = CGContextGetClipBoundingBox(context);
+
+        for (NSValue *value in [pressSelection rectangles])
+        {
+            const CGRect area = [value CGRectValue];
+
+            if (CGRectIntersectsRect(area, clip) == YES)
+            {
+                CGContextFillRect(context, area); // Fill it
+            }
+        }
+    }
 
 	CGContextRestoreGState(context);
 }
@@ -1229,6 +1252,55 @@
 	}];
 
 	return text;
+}
+- (void)selectWordForIndex:(NSUInteger)index {
+
+    NSUInteger from = index;
+    NSUInteger to = index;
+    NSCharacterSet *characterSet = [NSCharacterSet alphanumericCharacterSet];
+    while (from > 0) {
+        unichar c = [self unicharAtIndex:from-1];
+        BOOL isNotWordCharater = [[NSString stringWithFormat:@"%C", c] rangeOfCharacterFromSet:characterSet].length == 0;
+        if (isNotWordCharater) {
+            break;
+        }
+        from--;
+    }
+    while (to < [self unicharCount] - 1) {
+        unichar c = [self unicharAtIndex:to+1];
+        BOOL isNotWordCharater = [[NSString stringWithFormat:@"%C", c] rangeOfCharacterFromSet:characterSet].length == 0;
+        if (isNotWordCharater) {
+            break;
+        }
+        to++;
+    }
+    self->pressSelectionRange = NSMakeRange(from, to-from+1);
+    [self updatePressSelect];
+}
+- (void)unSelectWord {
+    self->pressSelection = nil;
+}
+
+- (void)updatePressSelect {
+    const NSUInteger index = self->pressSelectionRange.location;
+    const NSUInteger count = self->pressSelectionRange.length;
+    const int rc = FPDFText_CountRects(self->textPageFP, index, count);
+
+    NSMutableArray<NSValue *> *rects = [[NSMutableArray alloc] initWithCapacity:rc];
+    for (int ri = 0; ri < rc; ri++) {
+        double x1 = 0.0; double y1 = 0.0; double x2 = 0.0; double y2 = 0.0;
+
+        FPDFText_GetRect(self->textPageFP, ri, &x1, &y2, &x2, &y1); // Page co-ordinates
+
+        const double d = 1.0; x1 -= d; y1 -= d; x2 += d; y2 += d; // Outset rectangle
+
+        const CGRect rect = [self convertFromPageX1:x1 Y1:y1 X2:x2 Y2:y2];
+
+        [rects addObject:[NSValue valueWithCGRect:rect]];
+    }
+    if (UXReaderSelection *selection = [UXReaderSelection document:self->document page: self->page index: index count: count rectangles: rects]) {
+        self->pressSelection = selection;
+    }
 }
 
 @end

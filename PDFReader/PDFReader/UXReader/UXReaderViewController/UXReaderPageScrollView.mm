@@ -474,6 +474,28 @@
 
 	return action;
 }
+- (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer {
+    if ((pageTiledViewA != nil))
+    {
+        [pageTiledViewA processLongPress:recognizer];
+    }
+
+    if ((pageTiledViewB != nil))
+    {
+        [pageTiledViewB processLongPress:recognizer];
+    }
+}
+- (void)processUnLongPress {
+    if ((pageTiledViewA != nil))
+    {
+        [pageTiledViewA processUnLongPress];
+    }
+
+    if ((pageTiledViewB != nil))
+    {
+        [pageTiledViewB processUnLongPress];
+    }
+}
 
 #pragma mark - UIScrollViewDelegate methods
 

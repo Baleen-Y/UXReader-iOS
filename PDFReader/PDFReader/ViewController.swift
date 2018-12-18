@@ -19,8 +19,8 @@ class ViewController: UIViewController, UXReaderViewControllerDelegate {
         let fileStr = Bundle.main.path(forResource: "foxitpdf", ofType: "pdf")!
         guard let document = UXReaderDocument.init(url: URL.init(fileURLWithPath: fileStr)) else { return }
         document.setUseNativeRendering()
-        document.setHighlightLinks(false)
-        document.setShowRTL(false)
+        document.setHighlightLinks(true)
+        document.setShowRTL(true)
 
         let readerViewController = UXReaderViewController.init()
         readerViewController.setDocument(document)

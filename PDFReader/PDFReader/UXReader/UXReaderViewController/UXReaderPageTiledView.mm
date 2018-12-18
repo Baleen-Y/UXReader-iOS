@@ -114,7 +114,8 @@
 - (nullable UXReaderAction *)processSingleTap:(nonnull UITapGestureRecognizer *)recognizer
 {
 	//NSLog(@"%s %@", __FUNCTION__, recognizer);
-
+    NSLog(@"%@ %@", [documentPage text], [documentPage textAtIndex:0 count:11]);
+    NSLog(@"--%@--", [documentPage textAtIndex:11 count:1]);
 	if ([document highlightLinks])
 	{
 		if ([documentPage extractPageURLs])
@@ -162,6 +163,46 @@
 
 		if (hold != nil) hold = nil; // Release
 	}
+}
+
+#pragma mark - longPress
+- (void)processUnLongPress {
+    [documentPage unSelectWord];
+    [self setNeedsDisplay];
+}
+- (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer {
+    CGPoint point = [recognizer locationInView: self];
+    if (!CGRectContainsPoint(self.bounds, point)) {
+        return ;
+    }
+    NSUInteger pressIndex = [documentPage unicharIndexAtPoint:point tolerance:CGSizeMake(10, 10)];
+    unichar c = [documentPage unicharAtIndex:pressIndex];
+    if (c) {
+        [documentPage selectWordForIndex:pressIndex];
+    } else {
+        [documentPage unSelectWord];
+    }
+    [self setNeedsDisplay];
+    NSLog(@"%f, %f, %c", point.x, point.y, c);
+}
+- (void)showSelectionMenuFromRect:(CGRect)rect
+                           inView:(UIView *)view
+{
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    NSMutableArray* menuItems = [NSMutableArray array];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Copy" value:nil table:nil]
+                                action:@selector(copySelectedString:)]];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Modify" value:nil table:nil]
+                                action:@selector(lookupSelectedString:)]];
+    menuController.menuItems = menuItems;
+    menuController.arrowDirection = UIMenuControllerArrowDefault;
+    [menuController setTargetRect:rect
+                           inView:view];
+    [self becomeFirstResponder];
+    [menuController setMenuVisible:YES animated:YES];
 }
 
 @end

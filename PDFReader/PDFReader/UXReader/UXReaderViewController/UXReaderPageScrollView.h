@@ -30,6 +30,8 @@
 - (nullable instancetype)initWithFrame:(CGRect)frame document:(nonnull UXReaderDocument *)document pages:(nonnull NSIndexSet *)pages;
 
 - (nullable UXReaderAction *)processSingleTap:(nonnull UITapGestureRecognizer *)recognizer;
+- (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer;
+- (void)processUnLongPress;
 
 - (void)zoomIncrement:(nonnull UITapGestureRecognizer *)recognizer;
 - (void)zoomDecrement:(nonnull UITapGestureRecognizer *)recognizer;

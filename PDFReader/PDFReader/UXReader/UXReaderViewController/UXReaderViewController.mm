@@ -821,7 +821,8 @@ constexpr CGFloat minimumContentOffset = 0.0;
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
 	//NSLog(@"%s %@", __FUNCTION__, recognizer);
-
+    UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
+    [targetView processUnLongPress];
 	if (recognizer.state == UIGestureRecognizerStateRecognized)
 	{
 		if (recognizer.numberOfTouches == 1) // Handle one touch
@@ -834,7 +835,7 @@ constexpr CGFloat minimumContentOffset = 0.0;
 
 			if (CGRectContainsPoint(areaRect, point) == true) // Single tap in area
 			{
-				UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
+//                UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
 
 				UXReaderAction *action = [targetView processSingleTap:recognizer];
 
@@ -887,32 +888,24 @@ constexpr CGFloat minimumContentOffset = 0.0;
 - (void)handleDoubleTap:(UITapGestureRecognizer *)recognizer
 {
 	//NSLog(@"%s %@", __FUNCTION__, recognizer);
-
-	if (recognizer.state == UIGestureRecognizerStateRecognized)
-	{
+    UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
+    [targetView processUnLongPress];
+	if (recognizer.state == UIGestureRecognizerStateRecognized) {
 		const CGRect viewRect = recognizer.view.bounds; // View bounds
 
 		const CGPoint point = [recognizer locationInView:recognizer.view];
 
 		const CGRect zoomArea = CGRectInset(viewRect, sideTapAreaSize, 0.0);
 
-		if (CGRectContainsPoint(zoomArea, point) == true) // Double tap in area
-		{
-			UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
-
-			switch (recognizer.numberOfTouches) // Touches count
-			{
-				case 1: // One finger double tap: zoom++
-				{
+        if (CGRectContainsPoint(zoomArea, point) == true) { // Double tap in area
+            switch (recognizer.numberOfTouches) { // Touches count
+                case 1: {// One finger double tap: zoom++
 					[targetView zoomIncrement:recognizer]; break;
 				}
-
-				case 2: // Two finger double tap: zoom--
-				{
+                case 2: {// Two finger double tap: zoom--
 					[targetView zoomDecrement:recognizer]; break;
 				}
 			}
-
 			return;
 		}
 
@@ -920,46 +913,24 @@ constexpr CGFloat minimumContentOffset = 0.0;
 		nextPageRect.size.width = sideTapAreaSize;
 		nextPageRect.origin.x = (viewRect.size.width - sideTapAreaSize);
 
-		if (CGRectContainsPoint(nextPageRect, point) == true) // page++
-		{
+        if (CGRectContainsPoint(nextPageRect, point) == true) { // page++
+
 			[self incrementPage]; return;
 		}
 
 		CGRect prevPageRect = viewRect;
 		prevPageRect.size.width = sideTapAreaSize;
 
-		if (CGRectContainsPoint(prevPageRect, point) == true) // page--
-		{
+        if (CGRectContainsPoint(prevPageRect, point) == true) { // page--
+
 			[self decrementPage]; return;
 		}
 	}
 }
-
 - (void)longPress:(UILongPressGestureRecognizer *)recognizer {
     CGPoint point = [recognizer locationInView: recognizer.view];
     UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
-    CGFloat scale = targetView.zoomScale;
-
-    NSLog(@"%f, %f", point.x, point.y);
-}
-- (void)showSelectionMenuFromRect:(CGRect)rect
-                           inView:(UIView *)view
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
-    NSMutableArray* menuItems = [NSMutableArray array];
-    [menuItems addObject:
-     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Copy" value:nil table:nil]
-                                action:@selector(copySelectedString:)]];
-    [menuItems addObject:
-     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Modify" value:nil table:nil]
-                                action:@selector(lookupSelectedString:)]];
-    menuController.menuItems = menuItems;
-    menuController.arrowDirection = UIMenuControllerArrowDefault;
-    [menuController setTargetRect:rect
-                           inView:view];
-    [self becomeFirstResponder];
-    [menuController setMenuVisible:YES animated:YES];
+    [targetView processLongPress:recognizer];
 }
 
 #pragma mark - UIGestureRecognizerDelegate methods
