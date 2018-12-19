@@ -27,5 +27,6 @@
 - (nullable UXReaderAction *)processSingleTap:(nonnull UITapGestureRecognizer *)recognizer;
 - (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer;
 - (void)processUnLongPress;
+- (void)processZoomInScale: (CGFloat)scale;
 
 @end

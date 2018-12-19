@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, UXReaderSearchOptions)
 - (void)setShowRTL:(BOOL)RTL;
 - (BOOL)showRTL;
 
-- (void)setHighlightLinks:(BOOL)RTL;
+- (void)setHighlightLinks:(BOOL)highlight;
 - (BOOL)highlightLinks;
 
 - (void)setRenderTile:(nullable id <UXReaderRenderTileInContext>)renderTile;

@@ -18,6 +18,9 @@
 #import "fpdf_edit.h"
 #import "fpdf_doc.h"
 
+@interface UXReaderDocumentPage()
+@property (nonatomic, strong, nullable) UXReaderSelection *pressSelection;
+@end
 @implementation UXReaderDocumentPage
 {
 	UXReaderDocument *document;
@@ -30,6 +33,8 @@
 
 	NSArray<UXReaderSelection *> *searchSelections;
 
+    NSArray<UXReaderSelection *> *highlightSelections;
+
 	NSArray<UXReaderAction *> *pageLinks;
 
 	NSArray<UXReaderAction *> *pageURLs;
@@ -38,9 +43,9 @@
 
 	NSUInteger rotation;
 
-    UXReaderSelection *pressSelection;
-
-    NSRange pressSelectionRange;
+    NSUInteger pressSelectionStart;
+    
+    NSUInteger pressSelectionEnd;
 }
 
 #pragma mark - UXReaderDocumentPage instance methods
@@ -485,6 +490,32 @@
 			}
 		}
 	}
+    if (highlightSelections != nil) { // Draw highlightSelections
+//        248, 163, 76
+        CGContextSetRGBFillColor(context, 248/255.0, 163/255.0, 76/255.0, 0.32);
+
+        const CGRect clip = CGContextGetClipBoundingBox(context);
+
+        for (UXReaderSelection *selection in highlightSelections)
+        {
+            for (NSValue *value in [selection rectangles])
+            {
+                const CGRect area = [value CGRectValue];
+
+                if (CGRectIntersectsRect(area, clip) == YES)
+                {
+                    CGContextFillRect(context, area); // Fill it
+
+                    if ([selection isHighlighted] == YES) // Frame it
+                    {
+                        const CGRect rect = CGRectInset(area, -1.0, -1.0);
+
+                        CGContextStrokeRectWithWidth(context, rect, 2.0);
+                    }
+                }
+            }
+        }
+    }
 
 	if ([document highlightLinks] == YES)
 	{
@@ -522,15 +553,13 @@
 		}
 	}
 
-    if (pressSelection != nil) // Draw pressSelection
+    if (_pressSelection != nil) // Draw pressSelection
     {
         CGContextSetRGBFillColor(context, 10 / 255.0, 90 / 255.0, 160 / 255.0, 0.2);
 
-//        CGContextSetRGBStrokeColor(context, 0.0, 0.0, 1.0, 0.48);
-
         const CGRect clip = CGContextGetClipBoundingBox(context);
 
-        for (NSValue *value in [pressSelection rectangles])
+        for (NSValue *value in [_pressSelection rectangles])
         {
             const CGRect area = [value CGRectValue];
 
@@ -1274,17 +1303,18 @@
         }
         to++;
     }
-    self->pressSelectionRange = NSMakeRange(from, to-from+1);
-    [self updatePressSelect];
+    self->pressSelectionStart = from;
+    self->pressSelectionEnd = to;
+    [self updatePressSelection];
 }
 - (void)unSelectWord {
-    self->pressSelection = nil;
+    self.pressSelection = nil;
 }
 
-- (void)updatePressSelect {
-    const NSUInteger index = self->pressSelectionRange.location;
-    const NSUInteger count = self->pressSelectionRange.length;
-    const int rc = FPDFText_CountRects(self->textPageFP, index, count);
+- (void)updatePressSelection {
+    const NSUInteger index = self->pressSelectionStart;
+    const NSUInteger count = self->pressSelectionEnd - self->pressSelectionStart + 1;
+    const int rc = FPDFText_CountRects(self->textPageFP, (int)index, (int)count);
 
     NSMutableArray<NSValue *> *rects = [[NSMutableArray alloc] initWithCapacity:rc];
     for (int ri = 0; ri < rc; ri++) {
@@ -1299,8 +1329,39 @@
         [rects addObject:[NSValue valueWithCGRect:rect]];
     }
     if (UXReaderSelection *selection = [UXReaderSelection document:self->document page: self->page index: index count: count rectangles: rects]) {
-        self->pressSelection = selection;
+        self.pressSelection = selection;
     }
+}
+
+- (nullable UXReaderSelection *)pressSelection {
+    return _pressSelection;
+}
+
+- (void)selectCharactersFrom:(int)fromIndex to:(int)toIndex {
+    if (fromIndex == -1) {
+        fromIndex = (int)self->pressSelectionStart;
+    }
+    if (toIndex == -1) {
+        toIndex = (int)self->pressSelectionEnd;
+    }
+    if (fromIndex > toIndex) {
+        return;
+    }
+    NSLog(@"start -%i,end - %i",fromIndex,toIndex);
+    self->pressSelectionStart = fromIndex;
+    self->pressSelectionEnd = toIndex;
+    [self updatePressSelection];
+}
+- (NSString *)pressSelectionText {
+    const NSUInteger index = self->pressSelectionStart;
+    const NSUInteger count = self->pressSelectionEnd - self->pressSelectionStart + 1;
+    return [self textAtIndex:index count:count];
+}
+- (void)highlightPressSelection {
+    if (!highlightSelections) {
+        highlightSelections = [[NSArray alloc] init];
+    }
+    highlightSelections = [highlightSelections arrayByAddingObject:self.pressSelection];
 }
 
 @end

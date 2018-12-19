@@ -83,6 +83,7 @@
 		796FF4C821BE003500BC3005 /* UXReader-Display-Mode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */; };
 		796FF4C921BE003500BC3005 /* UXReader-Toolbar-Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4AB21BE003400BC3005 /* UXReader-Toolbar-Close.png */; };
 		796FF4CB21BE54E700BC3005 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4CA21BE54E600BC3005 /* Localizable.strings */; };
+		798440DD21CA23A7008B1BA2 /* Codelife.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 798440DC21CA23A7008B1BA2 /* Codelife.pdf */; };
 		79A74CA721BFA31E00E8F70C /* PDFPageSelectionKnob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79A74CA521BFA31E00E8F70C /* PDFPageSelectionKnob.mm */; };
 /* End PBXBuildFile section */
 
@@ -219,6 +220,7 @@
 		796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Display-Mode@2x.png"; sourceTree = "<group>"; };
 		796FF4AB21BE003400BC3005 /* UXReader-Toolbar-Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Close.png"; sourceTree = "<group>"; };
 		796FF4CA21BE54E600BC3005 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		798440DC21CA23A7008B1BA2 /* Codelife.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Codelife.pdf; sourceTree = "<group>"; };
 		79A74CA521BFA31E00E8F70C /* PDFPageSelectionKnob.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PDFPageSelectionKnob.mm; sourceTree = "<group>"; };
 		79A74CA621BFA31E00E8F70C /* PDFPageSelectionKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFPageSelectionKnob.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -270,6 +272,7 @@
 				796FF3F521BDFB0000BC3005 /* Info.plist */,
 				796FF4CA21BE54E600BC3005 /* Localizable.strings */,
 				796FF48B21BDFE6D00BC3005 /* foxitpdf.pdf */,
+				798440DC21CA23A7008B1BA2 /* Codelife.pdf */,
 				796FF48D21BE003400BC3005 /* PDF */,
 			);
 			path = PDFReader;
@@ -549,6 +552,7 @@
 				796FF4AD21BE003500BC3005 /* UXReader-Toolbar-Close@3x.png in Resources */,
 				796FF4BF21BE003500BC3005 /* UXReader-Toolbar-Outline.png in Resources */,
 				796FF4BC21BE003500BC3005 /* UXReader-Toolbar-Share@2x.png in Resources */,
+				798440DD21CA23A7008B1BA2 /* Codelife.pdf in Resources */,
 				796FF4C521BE003500BC3005 /* UXReader-Toolbar-Preview@3x.png in Resources */,
 				796FF4B421BE003500BC3005 /* UXReader-Toolbar-Options@2x.png in Resources */,
 				796FF3F421BDFB0000BC3005 /* LaunchScreen.storyboard in Resources */,

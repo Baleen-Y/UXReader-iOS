@@ -66,7 +66,7 @@
     CGFloat x = CGRectGetWidth(self.frame) / 2.0;
     [bezierPath moveToPoint:CGPointMake(x, 0.5)];
     [bezierPath addLineToPoint:CGPointMake(x, CGRectGetHeight(self.frame) - 0.5)];
-    [bezierPath setLineWidth:2];
+    [bezierPath setLineWidth:1];
     [bezierPath stroke];
 
     CGRect ovalRect = ({

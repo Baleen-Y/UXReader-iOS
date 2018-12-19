@@ -13,6 +13,8 @@
 "Word"							=	"Word";
 
 "Copy"							=	"Copy";
+"Highlight"                     =   "Highlight";
+"Note"                          =   "Note";
 "Modify"						=	"Modify";
 "Print"							=	"Print";
 

@@ -6,6 +6,9 @@
 //
 
 #import "UXReaderSelection.h"
+@interface UXReaderSelection()
+@property (nonatomic, nonnull, strong) NSArray<NSValue *> *rectangles;
+@end
 
 @implementation UXReaderSelection
 {
@@ -13,7 +16,7 @@
 
 	NSUInteger unicharIndex, unicharCount;
 
-	NSArray<NSValue *> *rectangles;
+//    NSArray<NSValue *> *rectangles;
 
 	NSValue *rectangle;
 
@@ -53,7 +56,7 @@
 	{
 		if ((documentx != nil) && ([rects count] > 0) && (count > 0))
 		{
-			document = documentx; page = pagex; rectangles = [rects copy];
+			document = documentx; page = pagex; _rectangles = [rects copy];
 
 			unicharIndex = index; unicharCount = count;
 		}
@@ -82,7 +85,7 @@
 {
 	//NSLog(@"%s", __FUNCTION__);
 
-	return rectangles;
+	return _rectangles;
 }
 
 - (CGRect)rectangle
@@ -94,7 +97,7 @@
 		CGFloat x1 = CGFLOAT_MAX; CGFloat y1 = CGFLOAT_MAX;
 		CGFloat x2 = CGFLOAT_MIN; CGFloat y2 = CGFLOAT_MIN;
 
-		for (NSValue *value in rectangles)
+		for (NSValue *value in _rectangles)
 		{
 			const CGRect rect = [value CGRectValue];
 
@@ -131,7 +134,7 @@
 {
 	//NSLog(@"%s", __FUNCTION__);
 
-	return [NSString stringWithFormat:@"Page: %i %@", int(page), rectangles];
+	return [NSString stringWithFormat:@"Page: %i %@", int(page), _rectangles];
 }
 
 @end

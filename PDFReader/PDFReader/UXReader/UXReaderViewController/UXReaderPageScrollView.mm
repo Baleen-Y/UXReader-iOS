@@ -364,6 +364,7 @@
 			[self setZoomScale:zoomScale animated:YES];
 		}
 	}
+
 }
 
 - (void)zoomDecrement:(nonnull UITapGestureRecognizer *)recognizer
@@ -392,6 +393,7 @@
 
 		[self zoomToRect:zoomRect animated:YES];
 	}
+
 }
 
 - (void)ensureVisibleSelection:(nonnull UXReaderSelection *)selection
@@ -523,7 +525,15 @@
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
 	//NSLog(@"%s %@", __FUNCTION__, scrollView);
+    if ((pageTiledViewA != nil))
+    {
+        [pageTiledViewA processZoomInScale:self.zoomScale];
+    }
 
+    if ((pageTiledViewB != nil))
+    {
+        [pageTiledViewB processZoomInScale:self.zoomScale];
+    }
 	[self centerScrollViewContent];
 }
 

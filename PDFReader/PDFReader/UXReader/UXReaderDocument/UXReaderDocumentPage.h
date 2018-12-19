@@ -56,6 +56,10 @@
 
 - (void)selectWordForIndex:(NSUInteger)index;
 - (void)unSelectWord;
-- (void)updatePressSelect;
+- (void)updatePressSelection;
+- (nullable UXReaderSelection *)pressSelection;
+- (void)selectCharactersFrom:(int)fromIndex to:(int)toIndex;
+- (nullable NSString *)pressSelectionText;
+- (void)highlightPressSelection;
 
 @end
