@@ -33,7 +33,7 @@
 
 	NSArray<UXReaderSelection *> *searchSelections;
 
-    NSArray<UXReaderSelection *> *highlightSelections;
+    NSMutableArray<UXReaderSelection *> *highlightSelections;
 
 	NSArray<UXReaderAction *> *pageLinks;
 
@@ -1359,9 +1359,29 @@
 }
 - (void)highlightPressSelection {
     if (!highlightSelections) {
-        highlightSelections = [[NSArray alloc] init];
+        highlightSelections = [[NSMutableArray alloc] init];
     }
-    highlightSelections = [highlightSelections arrayByAddingObject:self.pressSelection];
+    [highlightSelections addObject:self.pressSelection];
 }
 
+- (nullable UXReaderSelection *)isPressHighlightSelectionForIndex: (NSUInteger)pressIndex {
+    if (!highlightSelections) {
+        return nil;
+    }
+    for (int i = 0; i < highlightSelections.count; i++) {
+        UXReaderSelection *selection = highlightSelections[i];
+        NSUInteger start = [selection index];
+        NSUInteger end = [selection index] + [selection count];
+        if (pressIndex >= start && pressIndex <= end) {
+            return selection;
+        }
+    }
+    return nil;
+}
+- (void)deleteHighlightSelectionForSelection: (nonnull UXReaderSelection *)selection {
+    if (!highlightSelections) {
+        return;
+    }
+    [highlightSelections removeObject:selection];
+}
 @end

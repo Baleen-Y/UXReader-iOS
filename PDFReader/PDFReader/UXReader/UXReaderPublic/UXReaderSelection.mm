@@ -137,4 +137,11 @@
 	return [NSString stringWithFormat:@"Page: %i %@", int(page), _rectangles];
 }
 
+- (NSUInteger)index {
+    return unicharIndex;
+}
+- (NSUInteger)count {
+    return unicharCount;
+}
+
 @end

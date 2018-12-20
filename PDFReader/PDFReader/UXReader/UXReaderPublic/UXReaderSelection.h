@@ -20,5 +20,7 @@
 
 - (void)setHighlight:(BOOL)state;
 - (BOOL)isHighlighted;
+- (NSUInteger)index;
+- (NSUInteger)count;
 
 @end

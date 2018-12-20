@@ -22,6 +22,8 @@
     PDFPageSelectionKnob *selectionStartKnob;
 
     PDFPageSelectionKnob *selectionEndKnob;
+
+    UXReaderSelection *highlightSelection;
 }
 #pragma mark - Properties
 
@@ -188,6 +190,18 @@
         return rect;
     }
 }
+- (CGRect)highlightSelectionFrame {
+    if (!self->highlightSelection) {
+        return CGRectZero;
+    } else {
+        CGRect rect = [[highlightSelection.rectangles firstObject] CGRectValue];
+        for (int i = 1; i < highlightSelection.rectangles.count; i++) {
+            CGRect r = [highlightSelection.rectangles[i] CGRectValue];
+            rect = CGRectUnion(rect, r);
+        }
+        return rect;
+    }
+}
 
 - (void)processZoomInScale: (CGFloat)scale {
     [self updateSelectionKnobs];
@@ -203,6 +217,14 @@
         return ;
     }
     NSUInteger pressIndex = [documentPage unicharIndexAtPoint:point tolerance:CGSizeMake(10, 10)];
+    UXReaderSelection *selection = [documentPage isPressHighlightSelectionForIndex:pressIndex];
+    if (selection) {
+        self->highlightSelection = selection;
+        if (recognizer.state == UIGestureRecognizerStateEnded) {
+            [self showHighlightMenuFromRect: [self highlightSelectionFrame] inView:self];
+        }
+        return;
+    }
     unichar c = [documentPage unicharAtIndex:pressIndex];
     if (c) {
         [documentPage selectWordForIndex:pressIndex];
@@ -214,29 +236,8 @@
                                  inView:self];
     }
     [self setNeedsDisplay];
-    NSLog(@"%f, %f, %c", point.x, point.y, c);
 }
-- (void)showSelectionMenuFromRect:(CGRect)rect
-                           inView:(UIView *)view {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    UIMenuController *menuController = [UIMenuController sharedMenuController];
-    NSMutableArray* menuItems = [NSMutableArray array];
-    [menuItems addObject:
-     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Copy" value:nil table:nil]
-                                action:@selector(copySelectedString:)]];
-    [menuItems addObject:
-     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Highlight" value:nil table:nil]
-                                action:@selector(highlightSelectedString:)]];
-    [menuItems addObject:
-     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Note" value:nil table:nil]
-                                action:@selector(noteSelectedString:)]];
-    menuController.menuItems = menuItems;
-    menuController.arrowDirection = UIMenuControllerArrowDefault;
-    [menuController setTargetRect:rect
-                           inView:view];
-    [self becomeFirstResponder];
-    [menuController setMenuVisible:YES animated:YES];
-}
+
 
 #pragma mark - updateSelectionKnobs
 - (void)updateSelectionKnobs
@@ -287,7 +288,7 @@
         });
         self->selectionEndKnob.frame = ({
             CGRect f = [self convertRect:lastRect toView:self.superview.superview];
-            f.origin.x = ceilf(CGRectGetMaxX(f) - (w / 2.0));
+            f.origin.x = ceilf(CGRectGetMaxX(f) - (w / 2.0) - 0.5);
             f.size.width = w;
             f.size.height = ceilf(f.size.height + w);
             f;
@@ -326,6 +327,49 @@
 - (void)knobBegan:(PDFPageSelectionKnob *)knob {
 
 }
+
+#pragma mark - menuControl
+- (void)showSelectionMenuFromRect:(CGRect)rect
+                           inView:(UIView *)view {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    NSMutableArray* menuItems = [NSMutableArray array];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Copy" value:nil table:nil]
+                                action:@selector(copySelectedString:)]];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Highlight" value:nil table:nil]
+                                action:@selector(highlightSelectedString:)]];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Note" value:nil table:nil]
+                                action:@selector(noteSelectedString:)]];
+    menuController.menuItems = menuItems;
+    menuController.arrowDirection = UIMenuControllerArrowDefault;
+    [menuController setTargetRect:rect
+                           inView:view];
+    [self becomeFirstResponder];
+    [menuController setMenuVisible:YES animated:YES];
+}
+
+- (void)showHighlightMenuFromRect:(CGRect)rect
+                           inView:(UIView *)view {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    NSMutableArray* menuItems = [NSMutableArray array];
+
+    [menuItems addObject: [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Copy" value:nil table:nil]
+                                                     action:@selector(copyHighlightString:)]];
+    [menuItems addObject:
+     [[UIMenuItem alloc] initWithTitle:[bundle localizedStringForKey:@"Delete" value:nil table:nil]
+                                action:@selector(deleteHighlightString:)]];
+    menuController.menuItems = menuItems;
+    menuController.arrowDirection = UIMenuControllerArrowDefault;
+    [menuController setTargetRect:rect
+                           inView:view];
+    [self becomeFirstResponder];
+    [menuController setMenuVisible:YES animated:YES];
+}
+
 - (BOOL)canBecomeFirstResponder
 {
     return YES;
@@ -339,15 +383,21 @@
         return YES;
     } else if (action == @selector(noteSelectedString:)) {
         return YES;
+    } else if (action == @selector(copyHighlightString:)) {
+        return YES;
+    } else if (action == @selector(deleteHighlightString:)) {
+        return YES;
     }
     return NO;
 }
 
+#pragma mark - normal
 - (void)highlightSelectedString:(id)sender {
     [documentPage highlightPressSelection];
     [documentPage unSelectWord];
 }
 - (void)noteSelectedString:(id)sender {
+
 }
 - (void)copySelectedString:(id)sender {
     UIPasteboard *pd = [UIPasteboard generalPasteboard];
@@ -355,13 +405,24 @@
     [documentPage unSelectWord];
 }
 
+#pragma mark - highlight
+- (void)copyHighlightString:(id)sender {
+    UIPasteboard *pd = [UIPasteboard generalPasteboard];
+    NSString *highlightStr = [documentPage textAtIndex:[highlightSelection index] count:[highlightSelection count]];
+    [pd setString: highlightStr];
+}
+- (void)deleteHighlightString:(id)sender {
+    [documentPage deleteHighlightSelectionForSelection: self->highlightSelection];
+    [self setNeedsDisplay];
+}
+
+#pragma mark - note
+
+
 #pragma mark - observe
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     [self updateSelectionKnobs];
     [self setNeedsDisplay];
-    if (![documentPage pressSelection] || [documentPage pressSelection].rectangles.count == 0) {
-        [self hideMenuControllerIfNeeded];
-    }
 }
 
 - (void)hideMenuControllerIfNeeded {

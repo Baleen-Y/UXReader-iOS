@@ -823,63 +823,23 @@ constexpr CGFloat minimumContentOffset = 0.0;
 	//NSLog(@"%s %@", __FUNCTION__, recognizer);
     UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
     [targetView processUnLongPress];
-	if (recognizer.state == UIGestureRecognizerStateRecognized)
-	{
-		if (recognizer.numberOfTouches == 1) // Handle one touch
-		{
-			CGRect viewRect = recognizer.view.bounds; // View bounds
-
-			const CGPoint point = [recognizer locationInView:recognizer.view];
-
-			const CGRect areaRect = CGRectInset(viewRect, sideTapAreaSize, 0.0);
-
-			if (CGRectContainsPoint(areaRect, point) == true) // Single tap in area
-			{
-//                UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
-
-				UXReaderAction *action = [targetView processSingleTap:recognizer];
-
-				if (action == nil) // Nothing active tapped in the target content view
-				{
-					if ([lastToolbarHideTime timeIntervalSinceNow] < -1.0) // Delay
-					{
-						if (![mainToolbar isVisible] || ![pageToolbar isVisible])
-						{
-							[mainToolbar showAnimated]; [pageToolbar showAnimated];
-
-							[self setStatusBarHidden:NO];
-						}
-					}
-				}
-				else // Handle returned action
-				{
-					[self handleTapAction:action];
-				}
-
-				return;
-			}
-
-			CGRect nextPageRect = viewRect;
-			nextPageRect.size.width = sideTapAreaSize;
-			nextPageRect.origin.x = (viewRect.size.width - sideTapAreaSize);
-
-			if (CGRectContainsPoint(nextPageRect, point) == true) // page++
-			{
-				[self incrementPage]; return;
-			}
-
-			CGRect prevPageRect = viewRect;
-			prevPageRect.size.width = sideTapAreaSize;
-
-			if (CGRectContainsPoint(prevPageRect, point) == true) // page--
-			{
-				[self decrementPage]; return;
-			}
+    if (recognizer.state == UIGestureRecognizerStateRecognized) {
+        if (recognizer.numberOfTouches == 1) {// Handle one touch
+            UXReaderAction *action = [targetView processSingleTap:recognizer];
+            if (action == nil) {// Nothing active tapped in the target content view
+                if ([lastToolbarHideTime timeIntervalSinceNow] < -1.0) {// Delay
+                    if (![mainToolbar isVisible] || ![pageToolbar isVisible]) {
+                        [mainToolbar showAnimated]; [pageToolbar showAnimated];
+                        [self setStatusBarHidden:NO];
+                    }
+                }
+            }
+            else {// Handle returned action
+                [self handleTapAction:action];
+            }
 		}
-		else if (recognizer.numberOfTouches == 2) // Handle two touches
-		{
+        else if (recognizer.numberOfTouches == 2) {// Handle two touches
 			UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
-
 			[targetView resetZoom];
 		}
 	}
@@ -928,7 +888,6 @@ constexpr CGFloat minimumContentOffset = 0.0;
 	}
 }
 - (void)longPress:(UILongPressGestureRecognizer *)recognizer {
-    CGPoint point = [recognizer locationInView: recognizer.view];
     UXReaderPageScrollView *targetView = contentViews[@(currentKey)];
     [targetView processLongPress:recognizer];
 }

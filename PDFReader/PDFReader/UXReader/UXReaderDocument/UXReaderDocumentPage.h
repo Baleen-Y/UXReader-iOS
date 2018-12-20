@@ -61,5 +61,7 @@
 - (void)selectCharactersFrom:(int)fromIndex to:(int)toIndex;
 - (nullable NSString *)pressSelectionText;
 - (void)highlightPressSelection;
+- (nullable UXReaderSelection *)isPressHighlightSelectionForIndex: (NSUInteger)pressIndex;
+- (void)deleteHighlightSelectionForSelection: (nonnull UXReaderSelection *)selection;
 
 @end
