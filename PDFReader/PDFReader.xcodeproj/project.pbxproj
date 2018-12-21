@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		793FBE5B21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 793FBE5A21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf */; };
 		796FF3EA21BDFAFE00BC3005 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796FF3E921BDFAFE00BC3005 /* AppDelegate.swift */; };
 		796FF3EC21BDFAFE00BC3005 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796FF3EB21BDFAFE00BC3005 /* ViewController.swift */; };
 		796FF3EF21BDFAFE00BC3005 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 796FF3ED21BDFAFE00BC3005 /* Main.storyboard */; };
@@ -88,6 +89,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		793FBE5A21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "goyu-yan-sheng-j.pdf"; sourceTree = "<group>"; };
 		796FF3E621BDFAFE00BC3005 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		796FF3E921BDFAFE00BC3005 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		796FF3EB21BDFAFE00BC3005 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				796FF4CA21BE54E600BC3005 /* Localizable.strings */,
 				796FF48B21BDFE6D00BC3005 /* foxitpdf.pdf */,
 				798440DC21CA23A7008B1BA2 /* Codelife.pdf */,
+				793FBE5A21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf */,
 				796FF48D21BE003400BC3005 /* PDF */,
 			);
 			path = PDFReader;
@@ -310,6 +313,8 @@
 		796FF40221BDFB1800BC3005 /* PDFium */ = {
 			isa = PBXGroup;
 			children = (
+				796FF41521BDFB1800BC3005 /* cpp */,
+				796FF40F21BDFB1800BC3005 /* libpdfium.a */,
 				796FF40321BDFB1800BC3005 /* fpdf_catalog.h */,
 				796FF40421BDFB1800BC3005 /* fpdf_structtree.h */,
 				796FF40521BDFB1800BC3005 /* fpdf_text.h */,
@@ -322,13 +327,11 @@
 				796FF40C21BDFB1800BC3005 /* fpdf_ppo.h */,
 				796FF40D21BDFB1800BC3005 /* fpdf_flatten.h */,
 				796FF40E21BDFB1800BC3005 /* fpdf_save.h */,
-				796FF40F21BDFB1800BC3005 /* libpdfium.a */,
 				796FF41021BDFB1800BC3005 /* fpdf_sysfontinfo.h */,
 				796FF41121BDFB1800BC3005 /* README */,
 				796FF41221BDFB1800BC3005 /* fpdf_attachment.h */,
 				796FF41321BDFB1800BC3005 /* fpdf_searchex.h */,
 				796FF41421BDFB1800BC3005 /* fpdf_ext.h */,
-				796FF41521BDFB1800BC3005 /* cpp */,
 				796FF41821BDFB1800BC3005 /* fpdf_formfill.h */,
 				796FF41921BDFB1800BC3005 /* fpdf_progressive.h */,
 				796FF41A21BDFB1800BC3005 /* fpdf_dataavail.h */,
@@ -575,6 +578,7 @@
 				796FF4C121BE003500BC3005 /* UXReader-Toolbar-Share.png in Resources */,
 				796FF4BD21BE003500BC3005 /* UXReader-Toolbar-Share@3x.png in Resources */,
 				796FF4B821BE003500BC3005 /* UXReader-Search-Reverse@2x.png in Resources */,
+				793FBE5B21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf in Resources */,
 				796FF4AE21BE003500BC3005 /* UXReader-Toolbar-Close@2x.png in Resources */,
 				796FF4C821BE003500BC3005 /* UXReader-Display-Mode@2x.png in Resources */,
 				796FF3EF21BDFAFE00BC3005 /* Main.storyboard in Resources */,

@@ -1356,10 +1356,9 @@ constexpr CGFloat minimumContentOffset = 0.0;
 - (void)updateContentSizeSinglePageScrollV
 {
 	//NSLog(@"%s", __FUNCTION__);
-
 	const CGFloat cw = (mainScrollView.bounds.size.width); // Fixed width
 
-	const CGFloat ch = (mainScrollView.bounds.size.height * pageCount); // Height
+    const CGFloat ch = (mainScrollView.bounds.size.height * pageCount); // Height
 
 	const CGSize contentSize = CGSizeMake(cw, ch); // Possible new content size
 

@@ -16,7 +16,7 @@ class ViewController: UIViewController, UXReaderViewControllerDelegate {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let fileStr = Bundle.main.path(forResource: "Codelife", ofType: "pdf")!
+        let fileStr = Bundle.main.path(forResource: "goyu-yan-sheng-j", ofType: "pdf")!
         guard let document = UXReaderDocument.init(url: URL.init(fileURLWithPath: fileStr)) else { return }
         document.setUseNativeRendering()
         document.setHighlightLinks(false)

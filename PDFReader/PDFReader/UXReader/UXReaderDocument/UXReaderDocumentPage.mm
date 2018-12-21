@@ -75,6 +75,11 @@
 			pdfDocumentCG = CGPDFDocumentRef([document pdfDocumentCG]); // CGPDFDocument
 
 			if ([self loadPage] == YES) [self metadata]; else self = nil;
+            
+            if ([document highlightLinks]) {
+                [self extractPageURLs];
+                [self extractPageLinks];
+            }
 		}
 		else // On error
 		{

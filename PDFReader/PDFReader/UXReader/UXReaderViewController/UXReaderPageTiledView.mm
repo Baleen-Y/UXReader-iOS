@@ -127,25 +127,19 @@
 - (nullable UXReaderAction *)processSingleTap:(nonnull UITapGestureRecognizer *)recognizer
 {
 	//NSLog(@"%s %@", __FUNCTION__, recognizer);
-    NSLog(@"%@ %@", [documentPage text], [documentPage textAtIndex:0 count:11]);
-    NSLog(@"--%@--", [documentPage textAtIndex:11 count:1]);
-	if ([document highlightLinks])
-	{
-		if ([documentPage extractPageURLs])
-		{
-			[self setNeedsDisplay];
-		}
-
-		if ([documentPage extractPageLinks])
-		{
-			[self setNeedsDisplay];
-		}
-	}
-
+//    NSLog(@"%@ %@", [documentPage text], [documentPage textAtIndex:0 count:11]);
+//    NSLog(@"--%@--", [documentPage textAtIndex:11 count:1]);
 	UXReaderAction *action = nil;
-
 	const CGPoint point = [recognizer locationInView:self];
-
+    NSUInteger pressIndex = [documentPage unicharIndexAtPoint:point tolerance:CGSizeMake(10, 10)];
+    UXReaderSelection *selection = [documentPage isPressHighlightSelectionForIndex:pressIndex];
+    if (selection) {
+        self->highlightSelection = selection;
+        if (recognizer.state == UIGestureRecognizerStateEnded) {
+            [self showHighlightMenuFromRect: [self highlightSelectionFrame] inView:self];
+        }
+        return nil;
+    }
 	if ([self pointInside:point withEvent:nil] == YES) // Ours
 	{
 		if (action == nil) action = [documentPage linkAction:point];
@@ -208,8 +202,11 @@
 }
 #pragma mark - longPress
 - (void)processUnLongPress {
-    [documentPage unSelectWord];
-    [self setNeedsDisplay];
+    if ([documentPage pressSelection]) {
+        [documentPage unSelectWord];
+        [self setNeedsDisplay];
+    }
+    [self hideMenuControllerIfNeeded];
 }
 - (void)processLongPress:(nonnull UILongPressGestureRecognizer *)recognizer {
     CGPoint point = [recognizer locationInView: self];
