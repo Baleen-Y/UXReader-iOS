@@ -61,6 +61,14 @@ static const char *const UXReaderFrameworkWorkQueue = "UXReaderFramework-WorkQue
 
 	return ((h < w) ? h : w); // Should be 0.0 or 20.0
 }
++ (CGFloat)safeAreaBottomHeight
+{
+    UIEdgeInsets safeAreaInsets = UIEdgeInsetsZero;
+    if (@available(iOS 11.0, *)) {
+        safeAreaInsets = [[[[UIApplication sharedApplication] delegate] window] safeAreaInsets];
+    }
+    return safeAreaInsets.bottom;
+}
 
 + (CGFloat)mainToolbarHeight
 {

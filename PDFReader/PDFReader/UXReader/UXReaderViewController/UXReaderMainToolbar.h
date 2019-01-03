@@ -15,8 +15,8 @@
 @required // Delegate protocols
 
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar closeButton:(nonnull UIButton *)button;
-- (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar shareButton:(nonnull UIButton *)button;
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar stuffButton:(nonnull UIButton *)button;
+- (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar bookmarkButton:(nonnull UIButton *)button;
 
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar searchButton:(nonnull UIButton *)button;
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar searchTextDidChange:(nonnull NSString *)text;
@@ -33,8 +33,6 @@
 - (void)setLayoutConstraintY:(nonnull NSLayoutConstraint *)constraint;
 
 - (void)stuffButtonWhat:(NSUInteger)index;
-
-- (void)setAllowShare:(BOOL)allow;
 
 - (void)clearSearchText;
 - (void)showSearchBusy:(BOOL)show;

@@ -28,8 +28,8 @@
 
 	UIButton *closeButton;
 	UIButton *searchButton;
-	UIButton *shareButton;
 	UIButton *stuffButton;
+    UIButton *bookmarkButton;
 
 	UILabel *titleLabel;
 }
@@ -59,7 +59,7 @@
 	if ((self = [super initWithFrame:frame])) // Initialize superclass
 	{
 		self.translatesAutoresizingMaskIntoConstraints = NO; self.contentMode = UIViewContentModeRedraw;
-		self.backgroundColor = [UIColor clearColor]; //self.userInteractionEnabled = YES; self.opaque = NO;
+		self.backgroundColor = [UIColor whiteColor]; //self.userInteractionEnabled = YES; self.opaque = NO;
 
 		const CGFloat vh = ([UXReaderFramework mainToolbarHeight] + [UXReaderFramework statusBarHeight]); // Total height
 
@@ -105,21 +105,21 @@
 	//NSLog(@"%s %@", __FUNCTION__, documentx);
 
 	document = documentx; UIView *view = [self addEffectsView:self]; [self addSeparator:view];
-
+    [view setBackgroundColor:[UIColor whiteColor]];
 	const CGFloat th = [UXReaderFramework mainToolbarHeight]; const CGFloat sh = floor([UXReaderFramework statusBarHeight] * 0.5);
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
 	static NSString *const closeName = @"UXReader-Toolbar-Close";
 	UIImage *closeImage = [UIImage imageNamed:closeName inBundle:bundle compatibleWithTraitCollection:nil];
-	closeImage = [closeImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	closeImage = [closeImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
 	closeButton = [[UIButton alloc] initWithFrame:CGRectZero]; [closeButton setEnabled:NO];
 	[closeButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [closeButton setExclusiveTouch:YES];
 	[closeButton addTarget:self action:@selector(closeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[closeButton setImage:closeImage forState:UIControlStateNormal]; [closeButton setShowsTouchWhenHighlighted:YES];
 	[closeButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-	[view addSubview:closeButton]; //[closeButton setBackgroundColor:[UIColor lightGrayColor]];
+	[view addSubview:closeButton];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:closeButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
 														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
@@ -135,31 +135,6 @@
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
-	static NSString *const shareName = @"UXReader-Toolbar-Share";
-	UIImage *shareImage = [UIImage imageNamed:shareName inBundle:bundle compatibleWithTraitCollection:nil];
-	shareImage = [shareImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-
-	shareButton = [[UIButton alloc] initWithFrame:CGRectZero]; [shareButton setEnabled:NO];
-	[shareButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [shareButton setExclusiveTouch:YES];
-	[shareButton addTarget:self action:@selector(shareButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-	[shareButton setImage:shareImage forState:UIControlStateNormal]; [shareButton setShowsTouchWhenHighlighted:YES];
-	[shareButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-	[view addSubview:shareButton]; //[shareButton setBackgroundColor:[UIColor lightGrayColor]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
-														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
-														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
-	
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:closeButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:shareButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:sh]];
-
-// --------------------------------------------------------------------------------------------------------------------------------
-
 	titleLabel = [[UILabel alloc] initWithFrame:CGRectZero]; //[titleLabel setEnabled:NO];
 	[titleLabel setTranslatesAutoresizingMaskIntoConstraints:NO]; [titleLabel setTextAlignment:NSTextAlignmentCenter];
 	[titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
@@ -167,51 +142,26 @@
 	[titleLabel setText:[document title]]; [titleLabel setFont:[UIFont systemFontOfSize:16.0]];
 	[titleLabel setAdjustsFontSizeToFitWidth:YES]; [titleLabel setMinimumScaleFactor:0.75];
 	[titleLabel setHidden:[UXReaderFramework isSmallDevice]];
-	[view addSubview:titleLabel]; //[titleLabel setBackgroundColor:[UIColor lightGrayColor]];
+	[view addSubview:titleLabel];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:shareButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+														toItem:closeButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:titleLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual
 														toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:sh]];
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
-	static NSString *const stuffName = @"UXReader-Toolbar-Outline";
-	UIImage *stuffImage = [UIImage imageNamed:stuffName inBundle:bundle compatibleWithTraitCollection:nil];
-	stuffImage = [stuffImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-
-	stuffButton = [[UIButton alloc] initWithFrame:CGRectZero]; [stuffButton setEnabled:NO];
-	[stuffButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [stuffButton setExclusiveTouch:YES];
-	[stuffButton addTarget:self action:@selector(stuffButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-	[stuffButton setImage:stuffImage forState:UIControlStateNormal]; [stuffButton setShowsTouchWhenHighlighted:YES];
-	[stuffButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-	[view addSubview:stuffButton]; //[stuffButton setBackgroundColor:[UIColor lightGrayColor]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
-														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
-														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
-	
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:titleLabel attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:sh]];
-
-// --------------------------------------------------------------------------------------------------------------------------------
-
 	static NSString *const searchName = @"UXReader-Toolbar-Search";
 	UIImage *searchImage = [UIImage imageNamed:searchName inBundle:bundle compatibleWithTraitCollection:nil];
-	searchImage = [searchImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	searchImage = [searchImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
 	searchButton = [[UIButton alloc] initWithFrame:CGRectZero]; [searchButton setEnabled:NO];
 	[searchButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [searchButton setExclusiveTouch:YES];
 	[searchButton addTarget:self action:@selector(searchButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[searchButton setImage:searchImage forState:UIControlStateNormal]; [searchButton setShowsTouchWhenHighlighted:YES];
 	[searchButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-	[view addSubview:searchButton]; //[searchButton setBackgroundColor:[UIColor lightGrayColor]];
+	[view addSubview:searchButton];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:searchButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
 														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
@@ -220,13 +170,37 @@
 														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:searchButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:stuffButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:searchButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeTrailingMargin multiplier:1.0 constant:0.0]];
+														toItem:titleLabel attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
 
 	[view addConstraint:[NSLayoutConstraint constraintWithItem:searchButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual
 														toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:sh]];
+// --------------------------------------------------------------------------------------------------------------------------------
+
+    static NSString *const bookmarkName = @"UXReader-Toolbar-Bookmark";
+    UIImage *bookmarkImage = [UIImage imageNamed:bookmarkName inBundle:bundle compatibleWithTraitCollection:nil];
+    bookmarkImage = [bookmarkImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+    bookmarkButton = [[UIButton alloc] initWithFrame:CGRectZero]; [bookmarkButton setEnabled:NO];
+    [bookmarkButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [bookmarkButton setExclusiveTouch:YES];
+    [bookmarkButton addTarget:self action:@selector(bookmarkButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [bookmarkButton setImage:bookmarkImage forState:UIControlStateNormal]; [bookmarkButton setShowsTouchWhenHighlighted:YES];
+    [bookmarkButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [view addSubview:bookmarkButton];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:bookmarkButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:bookmarkButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:bookmarkButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                        toItem:searchButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:bookmarkButton attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:sh]];
+    
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:bookmarkButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeTrailingMargin multiplier:1.0 constant:0.0]];
 
 // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -325,13 +299,6 @@
 	}
 }
 
-- (void)setAllowShare:(BOOL)allow
-{
-	//NSLog(@"%s %i", __FUNCTION__, allow);
-
-	[shareButton setHidden:(allow ? NO : YES)];
-}
-
 - (void)hideAnimated
 {
 	//NSLog(@"%s", __FUNCTION__);
@@ -382,9 +349,9 @@
 {
 	//NSLog(@"%s %i", __FUNCTION__, enabled);
 
-	[closeButton setEnabled:enabled]; [shareButton setEnabled:enabled];
-
-	[stuffButton setEnabled:enabled]; [searchButton setEnabled:enabled];
+	[closeButton setEnabled:enabled];
+	[bookmarkButton setEnabled:enabled];
+    [searchButton setEnabled:enabled];
 }
 
 - (void)clearSearchText
@@ -450,18 +417,6 @@
 	}
 }
 
-- (void)shareButtonTapped:(UIButton *)button
-{
-	//NSLog(@"%s %@", __FUNCTION__, button);
-
-	[self dismissKeyboard];
-
-	if ([delegate respondsToSelector:@selector(mainToolbar:shareButton:)])
-	{
-		[delegate mainToolbar:self shareButton:button];
-	}
-}
-
 - (void)stuffButtonTapped:(UIButton *)button
 {
 	//NSLog(@"%s %@", __FUNCTION__, button);
@@ -484,6 +439,17 @@
 	{
 		[delegate mainToolbar:self searchButton:button];
 	}
+}
+
+- (void)bookmarkButtonTapped:(UIButton *)button
+{
+    //NSLog(@"%s %@", __FUNCTION__, button);
+    [self dismissKeyboard];
+
+    if ([delegate respondsToSelector:@selector(mainToolbar:bookmarkButton:)])
+    {
+        [delegate mainToolbar:self bookmarkButton:button];
+    }
 }
 
 #pragma mark - UXReaderSearchViewDelegate methods

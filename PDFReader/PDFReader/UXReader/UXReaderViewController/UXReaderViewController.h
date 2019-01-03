@@ -17,6 +17,11 @@ typedef NS_ENUM(NSUInteger, UXReaderDisplayMode)
 	UXReaderDisplayModeDoublePageScrollH, // Horizontal scroll
 	UXReaderDisplayModeDoublePageScrollV, // Vertical scroll
 };
+typedef NS_ENUM(NSUInteger, UXReaderBrightnessMode)
+{
+    UXReaderBrightnessModeDay,      // Day
+    UXReaderBrightnessModeNight,    // Night
+};
 
 typedef NS_OPTIONS(NSUInteger, UXReaderPermissions)
 {

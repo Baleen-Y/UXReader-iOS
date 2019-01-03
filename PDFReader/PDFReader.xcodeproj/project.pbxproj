@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7901ABD221DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7901ABD021DC96DC0004DD6E /* UXReader-Toolbar-Bookmark@2x.png */; };
+		7901ABD321DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7901ABD121DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@3x.png */; };
 		793FBE5B21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 793FBE5A21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf */; };
 		796FF3EA21BDFAFE00BC3005 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796FF3E921BDFAFE00BC3005 /* AppDelegate.swift */; };
 		796FF3EC21BDFAFE00BC3005 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796FF3EB21BDFAFE00BC3005 /* ViewController.swift */; };
@@ -53,42 +55,45 @@
 		796FF48421BDFC7A00BC3005 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796FF48321BDFC7A00BC3005 /* QuartzCore.framework */; };
 		796FF48621BDFC8600BC3005 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796FF48521BDFC8600BC3005 /* ImageIO.framework */; };
 		796FF48C21BDFE6D00BC3005 /* foxitpdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 796FF48B21BDFE6D00BC3005 /* foxitpdf.pdf */; };
-		796FF4AC21BE003500BC3005 /* UXReader-Toolbar-Preview.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF48E21BE003400BC3005 /* UXReader-Toolbar-Preview.png */; };
 		796FF4AD21BE003500BC3005 /* UXReader-Toolbar-Close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF48F21BE003400BC3005 /* UXReader-Toolbar-Close@3x.png */; };
 		796FF4AE21BE003500BC3005 /* UXReader-Toolbar-Close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49021BE003400BC3005 /* UXReader-Toolbar-Close@2x.png */; };
 		796FF4AF21BE003500BC3005 /* UXReader-Search-Close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49121BE003400BC3005 /* UXReader-Search-Close@3x.png */; };
 		796FF4B021BE003500BC3005 /* UXReader-Toolbar-Search@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49221BE003400BC3005 /* UXReader-Toolbar-Search@3x.png */; };
 		796FF4B121BE003500BC3005 /* UXReader-Search-Reverse@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49321BE003400BC3005 /* UXReader-Search-Reverse@3x.png */; };
 		796FF4B221BE003500BC3005 /* UXReader-Search-Forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49421BE003400BC3005 /* UXReader-Search-Forward@2x.png */; };
-		796FF4B321BE003500BC3005 /* UXReader-Search-Reverse.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49521BE003400BC3005 /* UXReader-Search-Reverse.png */; };
 		796FF4B421BE003500BC3005 /* UXReader-Toolbar-Options@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49621BE003400BC3005 /* UXReader-Toolbar-Options@2x.png */; };
-		796FF4B521BE003500BC3005 /* UXReader-Search-Forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49721BE003400BC3005 /* UXReader-Search-Forward.png */; };
 		796FF4B621BE003500BC3005 /* UXReader-Toolbar-Options@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49821BE003400BC3005 /* UXReader-Toolbar-Options@3x.png */; };
 		796FF4B721BE003500BC3005 /* UXReader-Search-Forward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49921BE003400BC3005 /* UXReader-Search-Forward@3x.png */; };
 		796FF4B821BE003500BC3005 /* UXReader-Search-Reverse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49A21BE003400BC3005 /* UXReader-Search-Reverse@2x.png */; };
 		796FF4B921BE003500BC3005 /* UXReader-Toolbar-Search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49B21BE003400BC3005 /* UXReader-Toolbar-Search@2x.png */; };
 		796FF4BA21BE003500BC3005 /* UXReader-Search-Close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49C21BE003400BC3005 /* UXReader-Search-Close@2x.png */; };
-		796FF4BB21BE003500BC3005 /* UXReader-Display-Mode.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49D21BE003400BC3005 /* UXReader-Display-Mode.png */; };
 		796FF4BC21BE003500BC3005 /* UXReader-Toolbar-Share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49E21BE003400BC3005 /* UXReader-Toolbar-Share@2x.png */; };
 		796FF4BD21BE003500BC3005 /* UXReader-Toolbar-Share@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF49F21BE003400BC3005 /* UXReader-Toolbar-Share@3x.png */; };
-		796FF4BE21BE003500BC3005 /* UXReader-Toolbar-Options.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A021BE003400BC3005 /* UXReader-Toolbar-Options.png */; };
-		796FF4BF21BE003500BC3005 /* UXReader-Toolbar-Outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A121BE003400BC3005 /* UXReader-Toolbar-Outline.png */; };
-		796FF4C021BE003500BC3005 /* UXReader-Toolbar-Search.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A221BE003400BC3005 /* UXReader-Toolbar-Search.png */; };
-		796FF4C121BE003500BC3005 /* UXReader-Toolbar-Share.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A321BE003400BC3005 /* UXReader-Toolbar-Share.png */; };
 		796FF4C221BE003500BC3005 /* UXReader-Display-Mode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A421BE003400BC3005 /* UXReader-Display-Mode@3x.png */; };
 		796FF4C321BE003500BC3005 /* UXReader-Toolbar-Outline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A521BE003400BC3005 /* UXReader-Toolbar-Outline@2x.png */; };
 		796FF4C421BE003500BC3005 /* UXReader-Toolbar-Preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A621BE003400BC3005 /* UXReader-Toolbar-Preview@2x.png */; };
 		796FF4C521BE003500BC3005 /* UXReader-Toolbar-Preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A721BE003400BC3005 /* UXReader-Toolbar-Preview@3x.png */; };
 		796FF4C621BE003500BC3005 /* UXReader-Toolbar-Outline@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A821BE003400BC3005 /* UXReader-Toolbar-Outline@3x.png */; };
-		796FF4C721BE003500BC3005 /* UXReader-Search-Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4A921BE003400BC3005 /* UXReader-Search-Close.png */; };
 		796FF4C821BE003500BC3005 /* UXReader-Display-Mode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */; };
-		796FF4C921BE003500BC3005 /* UXReader-Toolbar-Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4AB21BE003400BC3005 /* UXReader-Toolbar-Close.png */; };
 		796FF4CB21BE54E700BC3005 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 796FF4CA21BE54E600BC3005 /* Localizable.strings */; };
 		798440DD21CA23A7008B1BA2 /* Codelife.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 798440DC21CA23A7008B1BA2 /* Codelife.pdf */; };
 		79A74CA721BFA31E00E8F70C /* PDFPageSelectionKnob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79A74CA521BFA31E00E8F70C /* PDFPageSelectionKnob.mm */; };
+		79B050BC21DDAEA200A7A7C6 /* UXReader-Toolbar-Listen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050BA21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@3x.png */; };
+		79B050BD21DDAEA200A7A7C6 /* UXReader-Toolbar-Listen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050BB21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@2x.png */; };
+		79B050C021DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050BE21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@2x.png */; };
+		79B050C121DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050BF21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@3x.png */; };
+		79B050C421DDDD1B00A7A7C6 /* UXReaderPageControlView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79B050C321DDDD1B00A7A7C6 /* UXReaderPageControlView.mm */; };
+		79B050CB21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050C921DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@3x.png */; };
+		79B050CC21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050CA21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@2x.png */; };
+		79B050D121DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050CD21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@3x.png */; };
+		79B050D221DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050CE21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@2x.png */; };
+		79B050D321DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050CF21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@2x.png */; };
+		79B050D421DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B050D021DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7901ABD021DC96DC0004DD6E /* UXReader-Toolbar-Bookmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Bookmark@2x.png"; sourceTree = "<group>"; };
+		7901ABD121DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Bookmark@3x.png"; sourceTree = "<group>"; };
 		793FBE5A21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "goyu-yan-sheng-j.pdf"; sourceTree = "<group>"; };
 		796FF3E621BDFAFE00BC3005 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		796FF3E921BDFAFE00BC3005 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -191,40 +196,42 @@
 		796FF48521BDFC8600BC3005 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		796FF48A21BDFD6B00BC3005 /* PDFReader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PDFReader-Bridging-Header.h"; sourceTree = "<group>"; };
 		796FF48B21BDFE6D00BC3005 /* foxitpdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = foxitpdf.pdf; sourceTree = "<group>"; };
-		796FF48E21BE003400BC3005 /* UXReader-Toolbar-Preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Preview.png"; sourceTree = "<group>"; };
 		796FF48F21BE003400BC3005 /* UXReader-Toolbar-Close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Close@3x.png"; sourceTree = "<group>"; };
 		796FF49021BE003400BC3005 /* UXReader-Toolbar-Close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Close@2x.png"; sourceTree = "<group>"; };
 		796FF49121BE003400BC3005 /* UXReader-Search-Close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Close@3x.png"; sourceTree = "<group>"; };
 		796FF49221BE003400BC3005 /* UXReader-Toolbar-Search@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Search@3x.png"; sourceTree = "<group>"; };
 		796FF49321BE003400BC3005 /* UXReader-Search-Reverse@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Reverse@3x.png"; sourceTree = "<group>"; };
 		796FF49421BE003400BC3005 /* UXReader-Search-Forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Forward@2x.png"; sourceTree = "<group>"; };
-		796FF49521BE003400BC3005 /* UXReader-Search-Reverse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Reverse.png"; sourceTree = "<group>"; };
 		796FF49621BE003400BC3005 /* UXReader-Toolbar-Options@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Options@2x.png"; sourceTree = "<group>"; };
-		796FF49721BE003400BC3005 /* UXReader-Search-Forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Forward.png"; sourceTree = "<group>"; };
 		796FF49821BE003400BC3005 /* UXReader-Toolbar-Options@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Options@3x.png"; sourceTree = "<group>"; };
 		796FF49921BE003400BC3005 /* UXReader-Search-Forward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Forward@3x.png"; sourceTree = "<group>"; };
 		796FF49A21BE003400BC3005 /* UXReader-Search-Reverse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Reverse@2x.png"; sourceTree = "<group>"; };
 		796FF49B21BE003400BC3005 /* UXReader-Toolbar-Search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Search@2x.png"; sourceTree = "<group>"; };
 		796FF49C21BE003400BC3005 /* UXReader-Search-Close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Close@2x.png"; sourceTree = "<group>"; };
-		796FF49D21BE003400BC3005 /* UXReader-Display-Mode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Display-Mode.png"; sourceTree = "<group>"; };
 		796FF49E21BE003400BC3005 /* UXReader-Toolbar-Share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Share@2x.png"; sourceTree = "<group>"; };
 		796FF49F21BE003400BC3005 /* UXReader-Toolbar-Share@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Share@3x.png"; sourceTree = "<group>"; };
-		796FF4A021BE003400BC3005 /* UXReader-Toolbar-Options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Options.png"; sourceTree = "<group>"; };
-		796FF4A121BE003400BC3005 /* UXReader-Toolbar-Outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Outline.png"; sourceTree = "<group>"; };
-		796FF4A221BE003400BC3005 /* UXReader-Toolbar-Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Search.png"; sourceTree = "<group>"; };
-		796FF4A321BE003400BC3005 /* UXReader-Toolbar-Share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Share.png"; sourceTree = "<group>"; };
 		796FF4A421BE003400BC3005 /* UXReader-Display-Mode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Display-Mode@3x.png"; sourceTree = "<group>"; };
 		796FF4A521BE003400BC3005 /* UXReader-Toolbar-Outline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Outline@2x.png"; sourceTree = "<group>"; };
 		796FF4A621BE003400BC3005 /* UXReader-Toolbar-Preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Preview@2x.png"; sourceTree = "<group>"; };
 		796FF4A721BE003400BC3005 /* UXReader-Toolbar-Preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Preview@3x.png"; sourceTree = "<group>"; };
 		796FF4A821BE003400BC3005 /* UXReader-Toolbar-Outline@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Outline@3x.png"; sourceTree = "<group>"; };
-		796FF4A921BE003400BC3005 /* UXReader-Search-Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Search-Close.png"; sourceTree = "<group>"; };
 		796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Display-Mode@2x.png"; sourceTree = "<group>"; };
-		796FF4AB21BE003400BC3005 /* UXReader-Toolbar-Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Close.png"; sourceTree = "<group>"; };
 		796FF4CA21BE54E600BC3005 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		798440DC21CA23A7008B1BA2 /* Codelife.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Codelife.pdf; sourceTree = "<group>"; };
 		79A74CA521BFA31E00E8F70C /* PDFPageSelectionKnob.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PDFPageSelectionKnob.mm; sourceTree = "<group>"; };
 		79A74CA621BFA31E00E8F70C /* PDFPageSelectionKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFPageSelectionKnob.h; sourceTree = "<group>"; };
+		79B050BA21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Listen@3x.png"; sourceTree = "<group>"; };
+		79B050BB21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Listen@2x.png"; sourceTree = "<group>"; };
+		79B050BE21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Setting@2x.png"; sourceTree = "<group>"; };
+		79B050BF21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Setting@3x.png"; sourceTree = "<group>"; };
+		79B050C221DDDD1B00A7A7C6 /* UXReaderPageControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UXReaderPageControlView.h; sourceTree = "<group>"; };
+		79B050C321DDDD1B00A7A7C6 /* UXReaderPageControlView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UXReaderPageControlView.mm; sourceTree = "<group>"; };
+		79B050C921DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Thumb@3x.png"; sourceTree = "<group>"; };
+		79B050CA21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Thumb@2x.png"; sourceTree = "<group>"; };
+		79B050CD21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Brightness-N@3x.png"; sourceTree = "<group>"; };
+		79B050CE21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Brightness-N@2x.png"; sourceTree = "<group>"; };
+		79B050CF21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Brightness-D@2x.png"; sourceTree = "<group>"; };
+		79B050D021DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UXReader-Toolbar-Brightness-D@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +421,8 @@
 				796FF45821BDFB1800BC3005 /* UXReaderCanceller.mm */,
 				796FF45521BDFB1800BC3005 /* UXReaderPageControl.h */,
 				796FF44D21BDFB1800BC3005 /* UXReaderPageControl.mm */,
+				79B050C221DDDD1B00A7A7C6 /* UXReaderPageControlView.h */,
+				79B050C321DDDD1B00A7A7C6 /* UXReaderPageControlView.mm */,
 				796FF45621BDFB1800BC3005 /* UXReaderPageNumbers.h */,
 				796FF44C21BDFB1800BC3005 /* UXReaderPageNumbers.mm */,
 				796FF45321BDFB1800BC3005 /* UXReaderPageThumbView.h */,
@@ -447,36 +456,38 @@
 		796FF48D21BE003400BC3005 /* PDF */ = {
 			isa = PBXGroup;
 			children = (
-				796FF48E21BE003400BC3005 /* UXReader-Toolbar-Preview.png */,
-				796FF48F21BE003400BC3005 /* UXReader-Toolbar-Close@3x.png */,
-				796FF49021BE003400BC3005 /* UXReader-Toolbar-Close@2x.png */,
+				796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */,
+				796FF4A421BE003400BC3005 /* UXReader-Display-Mode@3x.png */,
+				796FF49C21BE003400BC3005 /* UXReader-Search-Close@2x.png */,
 				796FF49121BE003400BC3005 /* UXReader-Search-Close@3x.png */,
-				796FF49221BE003400BC3005 /* UXReader-Toolbar-Search@3x.png */,
-				796FF49321BE003400BC3005 /* UXReader-Search-Reverse@3x.png */,
 				796FF49421BE003400BC3005 /* UXReader-Search-Forward@2x.png */,
-				796FF49521BE003400BC3005 /* UXReader-Search-Reverse.png */,
-				796FF49621BE003400BC3005 /* UXReader-Toolbar-Options@2x.png */,
-				796FF49721BE003400BC3005 /* UXReader-Search-Forward.png */,
-				796FF49821BE003400BC3005 /* UXReader-Toolbar-Options@3x.png */,
 				796FF49921BE003400BC3005 /* UXReader-Search-Forward@3x.png */,
 				796FF49A21BE003400BC3005 /* UXReader-Search-Reverse@2x.png */,
-				796FF49B21BE003400BC3005 /* UXReader-Toolbar-Search@2x.png */,
-				796FF49C21BE003400BC3005 /* UXReader-Search-Close@2x.png */,
-				796FF49D21BE003400BC3005 /* UXReader-Display-Mode.png */,
-				796FF49E21BE003400BC3005 /* UXReader-Toolbar-Share@2x.png */,
-				796FF49F21BE003400BC3005 /* UXReader-Toolbar-Share@3x.png */,
-				796FF4A021BE003400BC3005 /* UXReader-Toolbar-Options.png */,
-				796FF4A121BE003400BC3005 /* UXReader-Toolbar-Outline.png */,
-				796FF4A221BE003400BC3005 /* UXReader-Toolbar-Search.png */,
-				796FF4A321BE003400BC3005 /* UXReader-Toolbar-Share.png */,
-				796FF4A421BE003400BC3005 /* UXReader-Display-Mode@3x.png */,
+				796FF49321BE003400BC3005 /* UXReader-Search-Reverse@3x.png */,
+				7901ABD021DC96DC0004DD6E /* UXReader-Toolbar-Bookmark@2x.png */,
+				7901ABD121DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@3x.png */,
+				79B050CF21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@2x.png */,
+				79B050D021DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@3x.png */,
+				79B050CE21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@2x.png */,
+				79B050CD21DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@3x.png */,
+				796FF49021BE003400BC3005 /* UXReader-Toolbar-Close@2x.png */,
+				796FF48F21BE003400BC3005 /* UXReader-Toolbar-Close@3x.png */,
+				79B050BB21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@2x.png */,
+				79B050BA21DDAEA100A7A7C6 /* UXReader-Toolbar-Listen@3x.png */,
+				796FF49621BE003400BC3005 /* UXReader-Toolbar-Options@2x.png */,
+				796FF49821BE003400BC3005 /* UXReader-Toolbar-Options@3x.png */,
 				796FF4A521BE003400BC3005 /* UXReader-Toolbar-Outline@2x.png */,
+				796FF4A821BE003400BC3005 /* UXReader-Toolbar-Outline@3x.png */,
 				796FF4A621BE003400BC3005 /* UXReader-Toolbar-Preview@2x.png */,
 				796FF4A721BE003400BC3005 /* UXReader-Toolbar-Preview@3x.png */,
-				796FF4A821BE003400BC3005 /* UXReader-Toolbar-Outline@3x.png */,
-				796FF4A921BE003400BC3005 /* UXReader-Search-Close.png */,
-				796FF4AA21BE003400BC3005 /* UXReader-Display-Mode@2x.png */,
-				796FF4AB21BE003400BC3005 /* UXReader-Toolbar-Close.png */,
+				796FF49B21BE003400BC3005 /* UXReader-Toolbar-Search@2x.png */,
+				796FF49221BE003400BC3005 /* UXReader-Toolbar-Search@3x.png */,
+				79B050BE21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@2x.png */,
+				79B050BF21DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@3x.png */,
+				796FF49E21BE003400BC3005 /* UXReader-Toolbar-Share@2x.png */,
+				796FF49F21BE003400BC3005 /* UXReader-Toolbar-Share@3x.png */,
+				79B050CA21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@2x.png */,
+				79B050C921DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@3x.png */,
 			);
 			path = PDF;
 			sourceTree = "<group>";
@@ -548,44 +559,46 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				796FF4BE21BE003500BC3005 /* UXReader-Toolbar-Options.png in Resources */,
 				796FF45D21BDFB1800BC3005 /* README in Resources */,
 				796FF4AF21BE003500BC3005 /* UXReader-Search-Close@3x.png in Resources */,
+				79B050D321DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@2x.png in Resources */,
 				796FF4B921BE003500BC3005 /* UXReader-Toolbar-Search@2x.png in Resources */,
 				796FF4AD21BE003500BC3005 /* UXReader-Toolbar-Close@3x.png in Resources */,
-				796FF4BF21BE003500BC3005 /* UXReader-Toolbar-Outline.png in Resources */,
 				796FF4BC21BE003500BC3005 /* UXReader-Toolbar-Share@2x.png in Resources */,
 				798440DD21CA23A7008B1BA2 /* Codelife.pdf in Resources */,
+				79B050D221DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@2x.png in Resources */,
+				79B050C121DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@3x.png in Resources */,
+				79B050D421DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-D@3x.png in Resources */,
 				796FF4C521BE003500BC3005 /* UXReader-Toolbar-Preview@3x.png in Resources */,
 				796FF4B421BE003500BC3005 /* UXReader-Toolbar-Options@2x.png in Resources */,
 				796FF3F421BDFB0000BC3005 /* LaunchScreen.storyboard in Resources */,
 				796FF4C621BE003500BC3005 /* UXReader-Toolbar-Outline@3x.png in Resources */,
-				796FF4AC21BE003500BC3005 /* UXReader-Toolbar-Preview.png in Resources */,
 				796FF4B621BE003500BC3005 /* UXReader-Toolbar-Options@3x.png in Resources */,
 				796FF4CB21BE54E700BC3005 /* Localizable.strings in Resources */,
+				79B050CB21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@3x.png in Resources */,
+				79B050C021DDAEBE00A7A7C6 /* UXReader-Toolbar-Setting@2x.png in Resources */,
+				79B050CC21DDE5E300A7A7C6 /* UXReader-Toolbar-Thumb@2x.png in Resources */,
 				796FF4C221BE003500BC3005 /* UXReader-Display-Mode@3x.png in Resources */,
+				79B050BC21DDAEA200A7A7C6 /* UXReader-Toolbar-Listen@3x.png in Resources */,
 				796FF4B021BE003500BC3005 /* UXReader-Toolbar-Search@3x.png in Resources */,
-				796FF4C721BE003500BC3005 /* UXReader-Search-Close.png in Resources */,
 				796FF4B121BE003500BC3005 /* UXReader-Search-Reverse@3x.png in Resources */,
-				796FF4C021BE003500BC3005 /* UXReader-Toolbar-Search.png in Resources */,
-				796FF4B321BE003500BC3005 /* UXReader-Search-Reverse.png in Resources */,
 				796FF4BA21BE003500BC3005 /* UXReader-Search-Close@2x.png in Resources */,
 				796FF4C421BE003500BC3005 /* UXReader-Toolbar-Preview@2x.png in Resources */,
 				796FF4B721BE003500BC3005 /* UXReader-Search-Forward@3x.png in Resources */,
-				796FF4C921BE003500BC3005 /* UXReader-Toolbar-Close.png in Resources */,
+				79B050D121DDF7EA00A7A7C6 /* UXReader-Toolbar-Brightness-N@3x.png in Resources */,
 				796FF3F121BDFB0000BC3005 /* Assets.xcassets in Resources */,
 				796FF4B221BE003500BC3005 /* UXReader-Search-Forward@2x.png in Resources */,
-				796FF4C121BE003500BC3005 /* UXReader-Toolbar-Share.png in Resources */,
 				796FF4BD21BE003500BC3005 /* UXReader-Toolbar-Share@3x.png in Resources */,
 				796FF4B821BE003500BC3005 /* UXReader-Search-Reverse@2x.png in Resources */,
+				79B050BD21DDAEA200A7A7C6 /* UXReader-Toolbar-Listen@2x.png in Resources */,
 				793FBE5B21CC7EA500B9B72B /* goyu-yan-sheng-j.pdf in Resources */,
 				796FF4AE21BE003500BC3005 /* UXReader-Toolbar-Close@2x.png in Resources */,
 				796FF4C821BE003500BC3005 /* UXReader-Display-Mode@2x.png in Resources */,
+				7901ABD221DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@2x.png in Resources */,
 				796FF3EF21BDFAFE00BC3005 /* Main.storyboard in Resources */,
 				796FF4C321BE003500BC3005 /* UXReader-Toolbar-Outline@2x.png in Resources */,
+				7901ABD321DC96DD0004DD6E /* UXReader-Toolbar-Bookmark@3x.png in Resources */,
 				796FF48C21BDFE6D00BC3005 /* foxitpdf.pdf in Resources */,
-				796FF4BB21BE003500BC3005 /* UXReader-Display-Mode.png in Resources */,
-				796FF4B521BE003500BC3005 /* UXReader-Search-Forward.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,6 +626,7 @@
 				796FF46521BDFB1800BC3005 /* UXReaderOutlineView.mm in Sources */,
 				796FF47921BDFB1800BC3005 /* UXReaderSearchView.mm in Sources */,
 				796FF45F21BDFB1800BC3005 /* UXReaderFramework.mm in Sources */,
+				79B050C421DDDD1B00A7A7C6 /* UXReaderPageControlView.mm in Sources */,
 				796FF47521BDFB1800BC3005 /* UXReaderTiledLayer.mm in Sources */,
 				796FF46821BDFB1800BC3005 /* UXReaderStuffToolbar.mm in Sources */,
 				796FF46A21BDFB1800BC3005 /* UXReaderOptionsView.mm in Sources */,

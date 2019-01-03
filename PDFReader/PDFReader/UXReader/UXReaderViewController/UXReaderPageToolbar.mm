@@ -8,10 +8,37 @@
 #import "UXReaderDocument.h"
 #import "UXReaderPageToolbar.h"
 #import "UXReaderPageControl.h"
+#import "UXReaderPageControlView.h"
 #import "UXReaderPageNumbers.h"
 #import "UXReaderFramework.h"
 
-@interface UXReaderPageToolbar () <UXReaderPageControlDelegate>
+
+typedef NS_ENUM(NSUInteger, UXReaderPageToolbarHeight) {
+    UXReaderPageToolbarHeightDefault = 156,
+    UXReaderPageToolbarHeightSetting = 193,
+    UXReaderPageToolbarHeightTabbar = 54,
+    UXReaderPageToolbarHeightPageControl = 52,
+    UXReaderPageToolbarHeightBrightness = 40
+};
+
+@interface CenteredButton : UIButton
+@end
+@implementation CenteredButton
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+        [self.titleLabel setFont: [UIFont systemFontOfSize:12]];
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self setTitleEdgeInsets:UIEdgeInsetsMake(self.imageView.frame.size.height + 8 ,-self.imageView.frame.size.width, 0.0, 0.0)];
+    [self setImageEdgeInsets:UIEdgeInsetsMake(-15, 0.0, 0.0, -self.titleLabel.bounds.size.width)];
+}
+@end
+
+@interface UXReaderPageToolbar () <UXReaderPageControlViewDelegate>
 
 @end
 
@@ -25,9 +52,19 @@
 
 	UXReaderPageControl *pageControl;
 
+    UXReaderPageControlView *pageControlView;
+
 	UXReaderPageNumbers *pageNumbers;
 
 	NSUInteger pageCount;
+    
+    NSBundle *bundle;
+
+    UIView *tabbar;
+    UIButton *stuffButton;
+    UIButton *listenButton;
+    UIButton *settingButton;
+    UIButton *brightnessButton;
 }
 
 #pragma mark - Properties
@@ -56,10 +93,11 @@
 	{
 		self.translatesAutoresizingMaskIntoConstraints = NO; self.contentMode = UIViewContentModeRedraw;
 
-		self.backgroundColor = [UIColor clearColor]; const CGFloat th = [UXReaderFramework pageToolbarHeight];
+		self.backgroundColor = [UIColor clearColor]; const CGFloat th = UXReaderPageToolbarHeightDefault + [UXReaderFramework safeAreaBottomHeight];
 
 		[self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
 															toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
+        bundle = [NSBundle bundleForClass:[self class]];
 	}
 
 	return self;
@@ -99,117 +137,196 @@
 
 	document = documentx; pageCount = [document pageCount];
 
-	UIView *view = [self addEffectsView:self]; [self addSeparator:view];
+    
+    [self addTabbar:self];
+    [self addPageControlView:self];
+    [self addBrightnessButton:self];
+}
+- (void)addTabbar:(nonnull UIView *)view
+{
+    UIView *baseView = [[UIView alloc] initWithFrame:CGRectZero];
+    [baseView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [baseView setBackgroundColor:[UIColor whiteColor]];
+    [view addSubview:baseView];
+    CGFloat bh = UXReaderPageToolbarHeightTabbar + [UXReaderFramework safeAreaBottomHeight];
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:baseView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:baseView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:baseView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:baseView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                          toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:bh]];
+
+// --------------------------------------------------------------------------------------------------------------------------------
+    tabbar = [[UIView alloc] initWithFrame:CGRectZero];
+    [tabbar setBackgroundColor:[UIColor whiteColor]];
+    [tabbar setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [baseView addSubview:tabbar];
+    CGFloat th = UXReaderPageToolbarHeightTabbar;
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:tabbar attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                            toItem:baseView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:tabbar attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                        toItem:baseView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:tabbar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+                                                        toItem:baseView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-[UXReaderFramework safeAreaBottomHeight]]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:tabbar attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                          toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:th]];
+
+// --------------------------------------------------------------------------------------------------------------------------------
+
+    static NSString *const stuffName = @"UXReader-Toolbar-Outline";
+    UIImage *stuffImage = [UIImage imageNamed:stuffName inBundle:bundle compatibleWithTraitCollection:nil];
+    stuffImage = [stuffImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    stuffButton = [[CenteredButton alloc] initWithFrame:CGRectZero];
+    [stuffButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [stuffButton setExclusiveTouch:YES];
+    [stuffButton addTarget:self action:@selector(stuffButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [stuffButton setImage:stuffImage forState:UIControlStateNormal]; [stuffButton setShowsTouchWhenHighlighted:YES];
+    [stuffButton setTitle:@"目录" forState:UIControlStateNormal];
+    [stuffButton setTitleColor:[UIColor colorWithRed:153.0f/255.0f green:153.0f/255.0f blue:153.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [stuffButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [tabbar addSubview:stuffButton];
+
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                        toItem:tabbar attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                        toItem:tabbar attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:stuffButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeWidth multiplier:1.0/3 constant:0.0]];
+// --------------------------------------------------------------------------------------------------------------------------------
+    static NSString *const listenName = @"UXReader-Toolbar-Listen";
+    UIImage *listenImage = [UIImage imageNamed:listenName inBundle:bundle compatibleWithTraitCollection:nil];
+    listenImage = [listenImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    listenButton = [[CenteredButton alloc] initWithFrame:CGRectZero];
+    [listenButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [listenButton setExclusiveTouch:YES];
+    [listenButton addTarget:self action:@selector(stuffButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [listenButton setImage:listenImage forState:UIControlStateNormal]; [listenButton setShowsTouchWhenHighlighted:YES];
+    [listenButton setTitle:@"听书" forState:UIControlStateNormal];
+    [listenButton setTitleColor:[UIColor colorWithRed:153.0f/255.0f green:153.0f/255.0f blue:153.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [listenButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [tabbar addSubview:listenButton];
+
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:listenButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                          toItem:stuffButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:listenButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:listenButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:listenButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeWidth multiplier:1.0/3 constant:0.0]];
+// --------------------------------------------------------------------------------------------------------------------------------
+    static NSString *const settingName = @"UXReader-Toolbar-Setting";
+    UIImage *settingImage = [UIImage imageNamed:settingName inBundle:bundle compatibleWithTraitCollection:nil];
+    settingImage = [settingImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    settingButton = [[CenteredButton alloc] initWithFrame:CGRectZero];
+    [settingButton setTranslatesAutoresizingMaskIntoConstraints:NO]; [settingButton setExclusiveTouch:YES];
+    [settingButton addTarget:self action:@selector(stuffButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [settingButton setImage:settingImage forState:UIControlStateNormal]; [settingButton setShowsTouchWhenHighlighted:YES];
+    [settingButton setTitle:@"设置" forState:UIControlStateNormal];
+    [settingButton setTitleColor:[UIColor colorWithRed:153.0f/255.0f green:153.0f/255.0f blue:153.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    [settingButton setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [tabbar addSubview:settingButton];
+
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:settingButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                          toItem:listenButton attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:settingButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:settingButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [tabbar addConstraint:[NSLayoutConstraint constraintWithItem:settingButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
+                                                          toItem:tabbar attribute:NSLayoutAttributeWidth multiplier:1.0/3 constant:0.0]];
+// --------------------------------------------------------------------------------------------------------------------------------
+    UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
+    [line setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [line setBackgroundColor: [UIColor colorWithRed:239/255.0 green:239/255.0 blue:239/255.0 alpha:1.0]];
+    [baseView addSubview:line];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                            toItem:baseView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                            toItem:baseView attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
+    [baseView addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+                                                            toItem:baseView attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+    [line addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:1.0]];
+
 }
 
-- (nonnull UIView *)addEffectsView:(nonnull UIView *)view
+- (void)addPageControlView:(nonnull UIView *)view
 {
 	//NSLog(@"%s %@", __FUNCTION__, view);
 
-	UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-	UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-	[blurEffectView setBackgroundColor:[UXReaderFramework toolbarBackgroundColor]];
-	[blurEffectView setTranslatesAutoresizingMaskIntoConstraints:NO];
-	[view addSubview:blurEffectView];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:blurEffectView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:blurEffectView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:blurEffectView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:blurEffectView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
-
-	contentView = [blurEffectView contentView]; return contentView;
-}
-
-- (void)addSeparator:(nonnull UIView *)view
-{
-	//NSLog(@"%s %@", __FUNCTION__, view);
-
-	UIView *line = [[UIView alloc] initWithFrame:CGRectZero];
-	line.translatesAutoresizingMaskIntoConstraints = NO;
-	line.backgroundColor = [UXReaderFramework toolbarSeparatorLineColor];
-	line.userInteractionEnabled = NO; line.contentMode = UIViewContentModeRedraw;
-	[view addSubview:line];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
-														toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:1.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
-
-	[view addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-														toItem:view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
-}
-
-- (void)addPageControl:(nonnull UIView *)view
-{
-	//NSLog(@"%s %@", __FUNCTION__, view);
-
-	if (pageControl == nil) // Create UXReaderPageControl
+	if (pageControlView == nil) // Create UXReaderPageControl
 	{
-		if ((pageControl = [[UXReaderPageControl alloc] initWithDocument:document]))
+		if ((pageControlView = [[UXReaderPageControlView alloc] initWithDocument:document]))
 		{
-			[view addSubview:pageControl]; [pageControl setDelegate:self]; // UXReaderPageControlDelegate
+			[view addSubview:pageControlView];
+            [pageControlView setDelegate:self];
 
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControl attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-																toItem:view attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
+			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControlView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+																toItem:tabbar attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]];
 
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControl attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual
-																toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControlView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+																toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
+            [view addConstraint:[NSLayoutConstraint constraintWithItem:pageControlView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                                toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:0.0]];
 
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControl attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual
-																toItem:view attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-8.0]];
-
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageControl attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-																toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]];
+			[pageControlView addConstraint:[NSLayoutConstraint constraintWithItem:pageControlView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+																toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:UXReaderPageToolbarHeightPageControl]];
 		}
 	}
+}
+
+- (void)addBrightnessButton:(nonnull UIView *)view {
+    brightnessButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [brightnessButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    UIImage *brightnessNImage = [UIImage imageNamed:@"UXReader-Toolbar-Brightness-N"];
+    UIImage *brightnessDImage = [UIImage imageNamed:@"UXReader-Toolbar-Brightness-D"];
+    brightnessNImage = [brightnessNImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    brightnessDImage = [brightnessDImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [brightnessButton setImage:brightnessNImage forState:UIControlStateNormal];
+    [brightnessButton setImage:brightnessDImage forState:UIControlStateSelected];
+    [brightnessButton addTarget:self action:@selector(brightnessButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:brightnessButton];
+
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:brightnessButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                        toItem:view attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:-15.0]];
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:brightnessButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+                                                        toItem:pageControlView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0]];
+    [brightnessButton addConstraint:[NSLayoutConstraint constraintWithItem:brightnessButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
+                                                                   toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:UXReaderPageToolbarHeightBrightness]];
+    [brightnessButton addConstraint:[NSLayoutConstraint constraintWithItem:brightnessButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:0.0 constant:UXReaderPageToolbarHeightBrightness]];
 }
 
 - (void)addPageNumbers:(nonnull UIView *)view
 {
 	//NSLog(@"%s %@", __FUNCTION__, view);
 
-	if (pageNumbers == nil) // Create UXReaderPageNumbers
-	{
-		if ((pageNumbers = [[UXReaderPageNumbers alloc] initWithFrame:CGRectZero]))
-		{
-			[view addSubview:pageNumbers]; const CGFloat yo = ([UXReaderFramework isSmallDevice] ? 64.0 : 80.0);
-
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageNumbers attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual
-																toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
-
-			[view addConstraint:[NSLayoutConstraint constraintWithItem:pageNumbers attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-																toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-yo]];
-		}
-	}
+//    if (pageNumbers == nil) // Create UXReaderPageNumbers
+//    {
+//        if ((pageNumbers = [[UXReaderPageNumbers alloc] initWithFrame:CGRectZero]))
+//        {
+//            [view addSubview:pageNumbers]; const CGFloat yo = ([UXReaderFramework isSmallDevice] ? 64.0 : 80.0);
+//
+//            [view addConstraint:[NSLayoutConstraint constraintWithItem:pageNumbers attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual
+//                                                                toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+//
+//            [view addConstraint:[NSLayoutConstraint constraintWithItem:pageNumbers attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+//                                                                toItem:view attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-yo]];
+//        }
+//    }
 }
 
 - (void)showPageNumber:(NSUInteger)page ofPages:(NSUInteger)pages
 {
-	//NSLog(@"%s %i %i", __FUNCTION__, int(page), int(pages));
-
-	if (pageControl == nil) [self addPageControl:contentView];
-
-	[pageControl showPageNumber:page ofPages:pages];
-
-	[self showPage:page ofPages:pages];
+    [self showPage:page ofPages:pages];
 }
 
 - (void)showPage:(NSUInteger)page ofPages:(NSUInteger)pages
 {
-	//NSLog(@"%s %i %i", __FUNCTION__, int(page), int(pages));
-
-	if (NSString *label = [document pageLabel:page]) [pageNumbers showPageLabel:label]; else [pageNumbers showPageNumber:page ofPages:pages];
+    [pageControlView setCurrentPage:page];
 }
 
 - (void)setLayoutConstraintY:(nonnull NSLayoutConstraint *)constraint
@@ -272,23 +389,48 @@
 	[pageControl setEnabled:enabled];
 }
 
-#pragma mark - UXReaderPageControlDelegate
-
-- (void)pageControl:(nonnull UXReaderPageControl *)control trackPage:(NSUInteger)page
-{
-	//NSLog(@"%s %@ %i", __FUNCTION__, control, int(page));
-
-	[self showPage:page ofPages:pageCount];
+#pragma mark - UXReaderPageControlViewDelegate
+- (void)pageControlView:(UXReaderPageControlView *)control gotoPage:(NSUInteger)page {
+    if ([delegate respondsToSelector:@selector(pageToolbar:gotoPage:)])
+    {
+        [delegate pageToolbar:self gotoPage:page];
+    }
 }
 
-- (void)pageControl:(nonnull UXReaderPageControl *)control gotoPage:(NSUInteger)page
-{
-	//NSLog(@"%s %@ %i", __FUNCTION__, control, int(page));
+#pragma mark - UIButton action methods
 
-	if ([delegate respondsToSelector:@selector(pageToolbar:gotoPage:)])
-	{
-		[delegate pageToolbar:self gotoPage:page];
-	}
+- (void)stuffButtonTapped:(UIButton *)button
+{
+
+    if ([delegate respondsToSelector:@selector(pageToolbar:stuffButton:)])
+    {
+        [delegate pageToolbar:self stuffButton:button];
+    }
 }
+- (void)listenButtonTapped:(UIButton *)button
+{
+
+    if ([delegate respondsToSelector:@selector(pageToolbar:listenButton:)])
+    {
+        [delegate pageToolbar:self listenButton:button];
+    }
+}
+- (void)settingButtonTapped:(UIButton *)button
+{
+
+    if ([delegate respondsToSelector:@selector(pageToolbar:settingButton:)])
+    {
+        [delegate pageToolbar:self settingButton:button];
+    }
+}
+- (void)brightnessButtonTapped:(UIButton *)button
+{
+    [button setSelected:!button.selected];
+    if ([delegate respondsToSelector:@selector(pageToolbar:brightnessButton:)])
+    {
+        [delegate pageToolbar:self brightnessButton:button];
+    }
+}
+
 
 @end

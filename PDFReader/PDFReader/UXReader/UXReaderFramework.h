@@ -15,6 +15,8 @@
 
 + (CGFloat)statusBarHeight;
 
++ (CGFloat)safeAreaBottomHeight;
+
 + (CGFloat)mainToolbarHeight;
 
 + (CGFloat)pageToolbarHeight;

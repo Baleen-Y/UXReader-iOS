@@ -400,8 +400,6 @@ constexpr CGFloat minimumContentOffset = 0.0;
 		{
 			[view addSubview:mainToolbar]; [mainToolbar setDelegate:self]; // UXReaderMainToolbarDelegate
 
-			[mainToolbar setAllowShare:(permissions & UXReaderPermissionAllowShare)]; // Set share button state
-
 			[view addConstraint:[NSLayoutConstraint constraintWithItem:mainToolbar attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
 																toItem:view attribute:NSLayoutAttributeLeading multiplier:1.0 constant:0.0]];
 
@@ -596,32 +594,6 @@ constexpr CGFloat minimumContentOffset = 0.0;
 	}
 }
 
-- (void)presentShareUserInterface:(nonnull UIView *)view
-{
-	//NSLog(@"%s %@", __FUNCTION__, view);
-
-	if ((permissions & UXReaderPermissionAllowShare) == NO) return;
-
-	id item = nil; NSURL *URL = [document URL]; NSData *data = [document data];
-
-	if (URL != nil) item = URL; else if (data != nil) item = data; else return; // Only NSURL or NSData
-
-	if (UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[item] applicationActivities:nil])
-	{
-		activityController.completionWithItemsHandler = ^(UIActivityType activityType, BOOL completed, NSArray *returnedItems, NSError *error) { };
-
-		activityController.excludedActivityTypes = [self excludedActivities]; activityController.modalPresentationStyle = UIModalPresentationPopover;
-
-		[self presentViewController:activityController animated:YES completion:nil];
-
-		UIPopoverPresentationController *presentationController = [activityController popoverPresentationController];
-
-		presentationController.sourceView = view; presentationController.sourceRect = CGRectInset(view.bounds, 10.0, 10.0);
-
-		presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-	}
-}
-
 - (nullable NSArray<UIActivityType> *)excludedActivities
 {
 	//NSLog(@"%s", __FUNCTION__);
@@ -724,18 +696,15 @@ constexpr CGFloat minimumContentOffset = 0.0;
 	[self closeDocument];
 }
 
-- (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar shareButton:(nonnull UIButton *)button
-{
-	//NSLog(@"%s %@ %@", __FUNCTION__, toolbar, button);
-
-	[self stopActiveSearch]; [self presentShareUserInterface:button];
-}
-
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar stuffButton:(nonnull UIButton *)button
 {
 	//NSLog(@"%s %@ %@", __FUNCTION__, toolbar, button);
 
 	[self stopActiveSearch]; [self presentStuffUserInterface:button];
+}
+
+- (void)mainToolbar:(UXReaderMainToolbar *)toolbar bookmarkButton:(UIButton *)button {
+    
 }
 
 - (void)mainToolbar:(nonnull UXReaderMainToolbar *)toolbar searchButton:(nonnull UIButton *)button
@@ -766,6 +735,10 @@ constexpr CGFloat minimumContentOffset = 0.0;
 	//NSLog(@"%s %@ %i", __FUNCTION__, toolbar, int(page));
 
 	[self gotoPage:page];
+}
+
+- (void)pageToolbar:(UXReaderPageToolbar *)toolbar stuffButton:(UIButton *)button {
+    [self stopActiveSearch]; [self presentStuffUserInterface:button];
 }
 
 #pragma mark - UXReaderPageScrollViewDelegate methods

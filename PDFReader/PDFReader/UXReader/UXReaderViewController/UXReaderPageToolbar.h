@@ -16,6 +16,14 @@
 
 - (void)pageToolbar:(nonnull UXReaderPageToolbar *)toolbar gotoPage:(NSUInteger)page;
 
+- (void)pageToolbar:(nonnull UXReaderPageToolbar *)toolbar stuffButton:(nonnull UIButton *)button;
+
+- (void)pageToolbar:(nonnull UXReaderPageToolbar *)toolbar brightnessButton:(nonnull UIButton *)button;
+
+- (void)pageToolbar:(nonnull UXReaderPageToolbar *)toolbar listenButton:(nonnull UIButton *)button;
+
+- (void)pageToolbar:(nonnull UXReaderPageToolbar *)toolbar settingButton:(nonnull UIButton *)button;
+
 @end
 
 @interface UXReaderPageToolbar : UIView
