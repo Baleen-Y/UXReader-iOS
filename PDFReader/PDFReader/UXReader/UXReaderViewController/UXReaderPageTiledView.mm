@@ -305,12 +305,10 @@
     int start = -1, end = -1;
     if (knob == self->selectionStartKnob) {
         CGPoint point = [self convertPoint:self->selectionStartKnob.point fromView:self->selectionStartKnob.superview];
-        NSLog(@"start - x: %f, y: %f", point.x, point.y);
         start = (int)[documentPage unicharIndexAtPoint:point tolerance:CGSizeMake(50, 50)];
     }
     if (knob == self->selectionEndKnob) {
         CGPoint point = [self convertPoint:self->selectionEndKnob.point fromView:self->selectionEndKnob.superview];
-        NSLog(@"end - x: %f, y: %f", point.x, point.y);
         end = (int)[documentPage unicharIndexAtPoint:point tolerance:CGSizeMake(50, 50)];
     }
     

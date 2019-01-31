@@ -563,7 +563,7 @@
         CGContextSetRGBFillColor(context, 10 / 255.0, 90 / 255.0, 160 / 255.0, 0.2);
 
         const CGRect clip = CGContextGetClipBoundingBox(context);
-
+        NSLog(@"%@", [_pressSelection rectangles]);
         for (NSValue *value in [_pressSelection rectangles])
         {
             const CGRect area = [value CGRectValue];
@@ -1321,6 +1321,7 @@
     const NSUInteger count = self->pressSelectionEnd - self->pressSelectionStart + 1;
     const int rc = FPDFText_CountRects(self->textPageFP, (int)index, (int)count);
 
+    CGFloat x = 0.0, y = 0.0, w = 0.0, h = 0.0;
     NSMutableArray<NSValue *> *rects = [[NSMutableArray alloc] initWithCapacity:rc];
     for (int ri = 0; ri < rc; ri++) {
         double x1 = 0.0; double y1 = 0.0; double x2 = 0.0; double y2 = 0.0;
@@ -1330,8 +1331,36 @@
         const double d = 1.0; x1 -= d; y1 -= d; x2 += d; y2 += d; // Outset rectangle
 
         const CGRect rect = [self convertFromPageX1:x1 Y1:y1 X2:x2 Y2:y2];
-
-        [rects addObject:[NSValue valueWithCGRect:rect]];
+        if (ri == 0) {
+            x = rect.origin.x;
+            y = rect.origin.y;
+            w = rect.size.width;
+            h = rect.size.height;
+            continue;
+        }
+        CGFloat tempY = y + h;
+        if (tempY > rect.origin.y) {
+            // 同一行
+            if (y > rect.origin.y) {
+                y = rect.origin.y;
+            }
+            if (h < rect.size.height) {
+                h = rect.size.height;
+            }
+            w = (rect.origin.x + rect.size.width) - x;
+        } else {
+            // 不是同一行
+            CGRect tempRect = CGRectMake(x, y, w, h);
+            [rects addObject:[NSValue valueWithCGRect:tempRect]];
+            x = rect.origin.x;
+            y = rect.origin.y;
+            w = rect.size.width;
+            h = rect.size.height;
+        }
+        if (ri == rc - 1) {
+            CGRect tempRect = CGRectMake(x, y, w, h);
+            [rects addObject:[NSValue valueWithCGRect:tempRect]];
+        }
     }
     if (UXReaderSelection *selection = [UXReaderSelection document:self->document page: self->page index: index count: count rectangles: rects]) {
         self.pressSelection = selection;
